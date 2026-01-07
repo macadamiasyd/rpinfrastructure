@@ -1,0 +1,130 @@
+.Modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  &.is-open {
+    display: flex;
+  }
+}
+
+.Modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.Modal-content {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  width: 90%;
+  max-width: rem-calc(960);
+  height: 80vh;
+  overflow: hidden;
+  padding: 0;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+
+  @include breakpoint(medium down) {
+    height: 90vh;
+  }
+
+  .Tile-title {
+    margin-bottom: rem-calc(10);
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .Tile-subTitle {
+    margin-bottom: rem-calc(20);
+  }
+
+  .Tile-readMoreContent {
+    margin-top: rem-calc(10);
+    max-height: none !important;
+  }
+}
+
+.Modal-close {
+  position: absolute;
+  top: rem-calc(10);
+  right: rem-calc(10);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: rem-calc(6);
+  z-index: 5;
+
+  .Icon {
+    width: rem-calc(20);
+    height: rem-calc(20);
+  }
+}
+
+.Modal-content > .row {
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  @include breakpoint(medium down) {
+    flex-flow: column nowrap !important;
+  }
+
+  @include breakpoint(medium) {
+    flex-flow: row nowrap !important;
+  }
+}
+
+.Tile-contact {
+  & > div {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: rem-calc(10);
+
+    dt {
+      font-weight: 600;
+
+      &::after {
+        content: ":";
+      }
+    }
+
+    a {
+      word-break: break-all;
+    }
+  }
+}
+
+.Modal-content > .row .column:last-child {
+  padding-block: rem-calc($padding-large);
+  padding-inline-end: rem-calc(30);
+  overflow-y: auto;
+
+  @include breakpoint(medium down) {
+    padding: rem-calc(24) rem-calc(48);
+  }
+}
+
+.Modal-content .LazyLoad-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: none !important;
+
+  @include breakpoint(medium down) {
+    aspect-ratio: 16 / 9;
+    object-position: 50% 25%;
+  }
+}
+
+@include breakpoint(large) {
+  .Modal-content {
+    width: 80%;
+  }
+}

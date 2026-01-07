@@ -1,0 +1,16 @@
+.ProjectGrid {
+  &-thumb {
+    margin-bottom: rem-calc($gutter);
+
+    @include breakpoint(medium down) {
+      padding-inline: 10px;
+    }
+  }
+}
+
+.ProjectGrid-thumb {
+  @extend %tile-rollover-transition;
+  .LazyLoad {
+    padding-bottom: 59.70149254%;
+  }
+}

@@ -1,0 +1,257 @@
+.ApplicationForm {
+  &-title {
+    @extend %large-orange-header;
+    margin-bottom: 2rem;
+  }
+
+  &-mandatoryNotice {
+    font-size: 1rem;
+    font-weight: 400;
+    color: $gray;
+
+    @include breakpoint(large) {
+      position: absolute;
+    }
+  }
+
+  &-uploadField {
+    // padding: rem-calc($form-spacing / 2);
+    // background: $white;
+    // margin-bottom: 1rem;
+    // position: relative;
+    margin-bottom: 1rem;
+
+    .gfield_label {
+      display: inline-block;
+      margin-right: 0.5em;
+      @include breakpoint(small down) {
+        margin-bottom: 0;
+      }
+    }
+
+    .gfield_description {
+      font-size: rem-calc(18);
+      margin-bottom: 1rem;
+      display: inline-block;
+      line-height: 1.8;
+      margin-bottom: rem-calc($form-spacing / 2);
+    }
+  }
+
+  &-wrap {
+    display: none;
+  }
+}
+
+#gform_fields_1 {
+  .gfield_required {
+    display: none;
+  }
+}
+
+.gform_fields {
+  list-style: none;
+  margin-left: 0;
+  padding: 0;
+
+  .gfield {
+    position: relative;
+  }
+
+  .gfield_error {
+    [type="text"],
+    [type="password"],
+    [type="date"],
+    [type="datetime"],
+    [type="datetime-local"],
+    [type="month"],
+    [type="week"],
+    [type="email"],
+    [type="number"],
+    [type="search"],
+    [type="tel"],
+    [type="time"],
+    [type="url"],
+    [type="color"],
+    textarea,
+    .gform_fileupload_multifile {
+      background-color: mix($primary-color, $white, 20%);
+      border-color: mix($primary-color, $white, 20%);
+    }
+
+    [type="button"] {
+      background-color: $primary-color;
+    }
+
+    .gfield_checkbox label {
+      color: $primary-color;
+    }
+
+    .gform_drop_instructions {
+      color: $primary-color;
+    }
+  }
+
+  .gfield_checkbox {
+    list-style: none;
+    margin-left: 0;
+    padding: 0;
+    margin-bottom: 1rem;
+    @include clearfix();
+
+    label {
+      font-size: 1rem;
+      font-weight: 400;
+      color: $gray;
+      line-height: 1;
+      float: left;
+      width: calc(100% - 2rem);
+      margin-left: 0;
+      margin-right: 0;
+
+      a {
+        color: $black;
+      }
+    }
+
+    input {
+      float: left;
+      width: 2rem;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  .gfield_label {
+    color: $primary-color;
+    margin-bottom: rem-calc($form-spacing / 2);
+    font-size: rem-calc($font-size-regular);
+  }
+
+  .hidden_label {
+    .gfield_label {
+      @include element-invisible;
+    }
+  }
+
+  .hidden_sub_label {
+    @include element-invisible;
+  }
+
+  .ginput_container_fileupload {
+    margin-bottom: 1rem;
+  }
+
+  .gform_fileupload_multifile {
+    padding: rem-calc(40);
+    border: 1px dashed $gray-light;
+    background: $white;
+  }
+
+  .gform_drop_area {
+    text-align: center;
+  }
+
+  .gform_drop_instructions {
+    display: block;
+    margin-bottom: 1rem;
+    color: $gray;
+  }
+
+  .gform_button_select_files {
+    font-size: rem-calc($font-size-regular);
+    padding: rem-calc(16 60);
+    background: $gray-light;
+  }
+
+  .screen-reader-text {
+    @include element-invisible;
+  }
+
+  input,
+  textarea {
+    font-size: rem-calc($font-size-regular);
+
+    &::placeholder {
+      color: $primary-color;
+    }
+  }
+
+  .gform_validation_container {
+    display: none;
+  }
+
+  .ginput_preview {
+    font-size: 1rem;
+    font-family: $body-font-family;
+
+    img {
+      width: 12px;
+      height: 12px;
+    }
+
+    span {
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+  }
+
+  .validation_message {
+    // color: $primary-color;
+    // position: absolute;
+    // left: 100%;
+    // white-space: nowrap;
+    // top: rem-calc($form-spacing / 2);
+    // margin-left: rem-calc($form-spacing / 2);
+    // font-size: 1rem;
+    // font-weight: 400;
+    display: none;
+  }
+}
+
+.gform_footer {
+  @include clearfix();
+
+  .gform_button {
+    font-size: rem-calc($font-size-regular);
+    padding: rem-calc(16 60);
+    margin-bottom: 0;
+    @include breakpoint(medium down) {
+      display: block;
+      width: 100%;
+    }
+
+    @include breakpoint(large) {
+      float: right;
+    }
+  }
+
+  .gform_ajax_spinner {
+    width: 16px;
+    height: 16px;
+
+    @include breakpoint(large) {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+    }
+  }
+}
+
+.gform_confirmation_wrapper {
+  @include callout-base;
+  background: $white;
+  color: $primary-color;
+  border-color: $white;
+  font-size: rem-calc($font-size-regular);
+}
+
+.gform_wrapper {
+  .validation_error {
+    @include callout-base;
+    background-color: $primary-color;
+    color: $white;
+    font-weight: 400;
+    border: 1px solid $primary-color;
+  }
+}

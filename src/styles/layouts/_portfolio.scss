@@ -1,0 +1,51 @@
+.Portfolio-contact {
+  font-weight: 400;
+  a {
+    color: black;
+  }
+}
+
+.Portfolio-content.rte {
+  .standfirst {
+    @extend %large-orange-header;
+    font-weight: 400;
+  }
+}
+
+.page-template-portfolio {
+  @include breakpoint(medium down) {
+    .AppContent {
+      padding-top: 0;
+    }
+  }
+}
+
+.Carousel--portfolio {
+  .swiper-slide {
+    overflow: hidden;
+  }
+  .Carousel-caption {
+    box-sizing: border-box;
+
+    .u-linkForward {
+      display: inline-flex;
+      align-items: center;
+      font-size: 18px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+
+      &:hover {
+        .Icon-arrow-right {
+          margin-left: 10px;
+        }
+      }
+
+      .Icon {
+        color: currentColor !important;
+        fill: currentColor;
+        margin-left: 4px;
+        transition: all 0.3s ease;
+      }
+    }
+  }
+}

@@ -1,0 +1,166 @@
+// Override sticky footer and use % because
+// ios is still not friends with vh units
+html.home {
+  &,
+  body,
+  .is-navOpen .Header {
+    height: 100%;
+  }
+
+  @include breakpoint(large) {
+    body {
+      padding-bottom: 0;
+    }
+
+    .Footer {
+      position: relative;
+    }
+  }
+}
+
+.HomeIntro {
+  position: relative;
+  height: 100%;
+  padding-bottom: rem-calc($navbar-height);
+
+  .Header {
+    position: absolute;
+    bottom: 0;
+  }
+
+  .HomeIntro-textRow {
+    @include grid-row;
+    position: relative;
+    transform: translateY(-50%);
+    top: 50%;
+  }
+
+  .HomeIntro-textColumn {
+    @include grid-column(14);
+
+    @include breakpoint(large) {
+      @include grid-column(12 of 14, 50);
+      @include grid-column-position(center);
+    }
+  }
+
+  &-downIcon {
+    position: absolute;
+    bottom: rem-calc(120);
+    display: inline-block;
+    z-index: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .Icon {
+      fill: $primary-color;
+      width: rem-calc(36);
+    }
+
+    // animation-name: bounce, fadeOut;
+    // transform-origin: center bottom;
+    // animation-iteration-count: 3, 1;
+    // animation-duration: 2s, 1s;
+    // animation-fill-mode: both;
+    // animation-delay: 3s, 9s;
+  }
+
+  &-text {
+    font-size: rem-calc(24);
+    font-weight: 700;
+    line-height: 1.2;
+    color: $gray-light;
+    text-align: center;
+
+    @media screen and #{breakpoint(small only)} and (min-height: rem-calc(667)) {
+      font-size: rem-calc(30);
+    }
+
+    @media screen and #{breakpoint(medium)} and (min-height: rem-calc(690)) {
+      font-size: rem-calc(50);
+    }
+
+    @media screen and #{breakpoint(xlarge)} and (min-height: rem-calc(900)) {
+      font-size: rem-calc(80);
+    }
+  }
+
+  &-loader {
+    position: absolute;
+    z-index: 9;
+    top: 0;
+    bottom: rem-calc($navbar-height);
+    left: 0;
+    width: 100%;
+    background: $gray-lighter;
+  }
+
+  &-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 75%;
+    animation-name: fadeIn;
+    @include animation-base();
+  }
+
+  &-logoImg {
+    position: relative;
+    z-index: 1;
+  }
+
+  &-badge {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    width: 400px;
+    left: rem-calc(-45px);
+    z-index: 0;
+    opacity: 0.5;
+  }
+}
+
+.Home {
+  &-pullQuote {
+    @include pullquote-text;
+  }
+
+  &-lead {
+    > .PullQuote {
+      @include breakpoint(medium) {
+        columns: 2;
+        column-gap: rem-calc(80);
+
+        & > div,
+        & > p {
+          display: inline;
+          vertical-align: top;
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  &-carousel {
+    & > div + div {
+      visibility: hidden;
+      height: 0;
+      overflow: hidden;
+    }
+  }
+
+  &-contact {
+    line-height: 1.25;
+    font-weight: 400;
+    color: #000;
+
+    a {
+      color: black;
+    }
+
+    @include breakpoint(large) {
+      text-align: right;
+    }
+  }
+}

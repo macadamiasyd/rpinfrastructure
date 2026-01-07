@@ -1,0 +1,109 @@
+.Search {
+  &-input {
+    @extend %input-overrides;
+    font-size: rem-calc($font-size-regular);
+    color: $primary-color;
+    font-weight: 400;
+
+    &::-webkit-input-placeholder {
+      /* Chrome/Opera/Safari */
+      color: $primary-color;
+      font-weight: 400;
+    }
+    &::-moz-placeholder {
+      /* Firefox 19+ */
+      color: $primary-color;
+      font-weight: 400;
+    }
+    &:-ms-input-placeholder {
+      /* IE 10+ */
+      color: $primary-color;
+      font-weight: 400;
+    }
+    &:-moz-placeholder {
+      /* Firefox 18- */
+      color: $primary-color;
+      font-weight: 400;
+    }
+  }
+
+  p {
+    font-size: rem-calc($font-size-regular);
+    color: $gray;
+  }
+
+  &-suggestion {
+    margin-bottom: 0;
+  }
+
+  &-suggestionLink {
+    color: $gray;
+    font-weight: 400;
+
+    &:hover {
+      color: $gray-dark;
+    }
+  }
+
+  &-menu {
+    position: relative !important;
+  }
+}
+
+.Search--page {
+  .Search-input {
+    font-weight: 500;
+    padding: 0;
+    margin-bottom: rem-calc(20);
+  }
+
+  .Search-suggestion {
+    margin-bottom: 0;
+  }
+
+  .Search-input,
+  .Search-suggestion,
+  .Search-noResults,
+  .Search-loading {
+    font-weight: 400;
+    font-size: rem-calc($font-size-medium);
+    line-height: 1.18182;
+  }
+}
+
+.Search--header {
+  margin-bottom: 1rem;
+
+  .Search-icon {
+    width: rem-calc($header-font-size);
+    height: rem-calc($header-font-size);
+    fill: $primary-color;
+
+    @include show-for(large);
+
+    @include breakpoint(medium down) {
+      & + .show-for-sr {
+        font: inherit;
+        line-height: inherit;
+        text-transform: uppercase;
+        clip: unset !important;
+        white-space: inherit !important;
+        border: 0 !important;
+        width: unset !important;
+        height: unset !important;
+        padding: 0 !important;
+        position: static !important;
+        overflow: initial !important;
+      }
+    }
+  }
+
+  .Search-input {
+    font-size: rem-calc($font-size-medium);
+    @include hide-for(large);
+  }
+
+  p {
+    font-size: rem-calc($font-size-medium);
+  }
+}

@@ -1,0 +1,16 @@
+.People-title {
+  @extend %large-orange-header;
+  margin-bottom: rem-calc($gutter);
+}
+
+.Person-title {
+  @extend .Tile-title;
+}
+
+.Person-subTitle {
+  @extend .Tile-subTitle;
+}
+
+.PersonGrid + .People-title {
+  margin-top: rem-calc($padding-large);
+}

@@ -1,0 +1,13 @@
+%input-overrides {
+  margin-bottom: 0;
+  padding: rem-calc(2 0);
+  height: auto;
+  line-height: 1.25;
+
+  &,
+  &:focus {
+    background-color: transparent;
+    box-shadow: none;
+    border: 0;
+  }
+}

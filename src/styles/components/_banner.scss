@@ -1,0 +1,245 @@
+.Banner {
+  position: relative;
+  background: transparent slick-image-url("ajax-loader.gif") center center no-repeat;
+  height: 400px;
+
+  @include breakpoint(large) {
+    height: 600px;
+  }
+
+  @include breakpoint(xlarge) {
+    height: 800px;
+  }
+
+  &.swiper-slide {
+    height: 400px;
+
+    @include breakpoint(large) {
+      height: 600px;
+    }
+
+    @include breakpoint(xlarge) {
+      height: 800px;
+    }
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(
+      90deg,
+      rgba($secondary-color, 0.9),
+      rgba($secondary-color, 0)
+    );
+    mix-blend-mode: multiply;
+    z-index: 2;
+  }
+
+  &.has-no-image {
+    &:after {
+      display: none;
+    }
+  }
+
+  &-slide {
+    height: 100%;
+    position: relative;
+  }
+
+  &-innerImg {
+    position: absolute;
+    right: 0;
+    top: 0;
+    max-width: 50%;
+    transform: rotate(20deg);
+    opacity: 0.2;
+    @include column-padding();
+    @include breakpoint(large) {
+      height: 100%;
+      width: auto;
+    }
+  }
+
+  .img-cover,
+  img[data-object-fit] {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    top: 0;
+  }
+
+  &-caption {
+    z-index: 3;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 40px 0;
+    height: 100%;
+    box-sizing: border-box;
+    @include breakpoint(large) {
+      padding: 40px 0;
+    }
+
+    .Icon-loop {
+      width: 36px;
+      height: 20px;
+      fill: $primary-color;
+
+      @include breakpoint(large) {
+        width: 68px;
+        height: 38px;
+      }
+    }
+
+    .u-staggerIn {
+      opacity: 0;
+      transform: translateY(30px);
+      transition:
+        transform 0.5s ease 0.1s,
+        opacity 0.5s ease 0.1s;
+      display: block;
+      backface-visibility: hidden;
+
+      & + .u-staggerIn {
+        margin-top: rem-calc(20);
+        @include breakpoint(xlarge) {
+          margin-top: rem-calc(36);
+        }
+      }
+    }
+
+    .swiper-slide-active &,
+    .slick-active &,
+    .Banner--static & {
+      .u-staggerIn {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @for $i from 1 through 8 {
+        .u-staggerIn:nth-child(#{$i}) {
+          transition-delay: #{0.3 * $i}s;
+        }
+      }
+    }
+  }
+
+  &-text {
+    color: $white;
+    font-weight: 700;
+    line-height: 1.05;
+    max-width: 80%;
+    margin-bottom: 0;
+    font-size: rem-calc(26);
+    @include breakpoint(large) {
+      font-size: rem-calc(40);
+    }
+
+    @include breakpoint(xlarge) {
+      font-size: rem-calc(58);
+      max-width: 50%;
+    }
+  }
+
+  &-title {
+    font-size: rem-calc(16);
+    font-weight: 500;
+    color: $white;
+    margin-bottom: 0;
+    line-height: 1.172413;
+    @include breakpoint(large) {
+      font-size: rem-calc(26);
+    }
+  }
+
+  &-cta {
+    font-size: 1rem;
+    color: $primary-color;
+    font-weight: 500;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0.3em;
+
+    @include breakpoint(large) {
+      font-size: rem-calc(22);
+    }
+
+    .Icon {
+      fill: $primary-color;
+      display: inline-block;
+      vertical-align: middle;
+      transition: transform 0.5s ease-in-out;
+      width: 0.8em;
+      height: 0.8em;
+    }
+
+    &:hover {
+      .Icon {
+        transform: translateX(10px);
+      }
+    }
+  }
+
+  &--overlay-light {
+    &:after {
+      background-image: linear-gradient(90deg, rgba($white, 1), rgba($white, 0));
+      mix-blend-mode: normal;
+    }
+
+    .Banner-text {
+      color: $secondary-color;
+    }
+  }
+
+  &--static {
+    .AppContent > &:first-child {
+      margin-top: rem-calc(-50);
+      margin-bottom: rem-calc(50);
+
+      @include breakpoint(large) {
+        margin-top: rem-calc(-#{$padding-huge});
+        margin-bottom: rem-calc($padding-huge);
+      }
+    }
+  }
+}
+
+.video-section {
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  min-width: 100vw;
+  max-width: 100vw;
+  margin-left: -50vw !important;
+
+  @include breakpoint(medium down) {
+    padding-block: 2rem;
+  }
+
+  & > .row {
+    margin-inline: auto !important;
+    max-width: $global-width !important;
+
+    @include breakpoint(large) {
+      padding-inline: 3.125rem !important;
+    }
+  }
+
+  .AppContent & {
+    &:first-child {
+      margin-top: rem-calc(-50);
+      margin-bottom: rem-calc(50);
+
+      @include breakpoint(large) {
+        margin-top: rem-calc(-#{$padding-huge});
+        margin-bottom: rem-calc($padding-huge);
+      }
+    }
+  }
+}

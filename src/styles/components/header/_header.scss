@@ -1,0 +1,65 @@
+body:not(.is-headerUnfixed) {
+  .Header {
+    position: fixed;
+    top: 0;
+  }
+}
+
+.Header {
+  background-color: $white;
+  color: $primary-color;
+  font-weight: 400;
+  z-index: 1084;
+  width: 100%;
+  height: rem-calc($navbar-height);
+  max-height: none;
+  transform: translateZ(0);
+  transition:
+    background-color 0.35s linear,
+    height 0.35s ease-in,
+    transform 0.35s ease-in-out;
+
+  @include breakpoint(medium down) {
+    overflow: hidden;
+
+    .is-navOpen & {
+      height: 100vh;
+      overflow: scroll;
+    }
+  }
+
+  &-logo {
+    line-height: 1;
+    margin: 0;
+    float: left;
+    font-size: rem-calc($header-font-size);
+    height: rem-calc($header-font-size);
+    margin: rem-calc($header-padding) 0;
+    max-width: 60%;
+    @include column-padding;
+
+    a {
+      display: inline-block;
+    }
+
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+  }
+}
+
+.Header--hidden {
+  transform: translate3d(0, -100%, 0);
+}
+
+.Header-nav {
+  @include breakpoint(medium down) {
+    padding-top: rem-calc($navbar-height);
+  }
+
+  @include breakpoint(large) {
+    float: right;
+  }
+  @include column-padding;
+}

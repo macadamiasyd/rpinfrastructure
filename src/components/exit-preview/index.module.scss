@@ -1,0 +1,14 @@
+.exit-preview {
+  padding: 20px 0;
+
+  &__holder {
+    gap: 10px;
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    p {
+      margin-bottom: 0;
+    }
+  }
+}

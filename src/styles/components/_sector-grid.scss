@@ -1,0 +1,54 @@
+.SectorGrid {
+  @extend .u-spaceAfterHuge;
+
+  @include breakpoint(medium down) {
+    padding-top: rem-calc(50);
+    padding-bottom: rem-calc(50);
+    background-color: white;
+    border-top: 1px solid $gray-light;
+  }
+
+  .LazyLoad {
+    padding-bottom: 59.70149254%;
+
+    @include show-for(large);
+  }
+
+  &-thumb {
+    display: block;
+    @extend %tile-rollover-transition;
+
+    @include breakpoint(medium down) {
+      &:hover,
+      &:focus {
+        text-decoration: none;
+
+        .SectorGrid-title {
+          color: $gray;
+          text-decoration: none;
+        }
+      }
+    }
+
+    @include breakpoint(large) {
+      margin-bottom: rem-calc($gutter);
+    }
+  }
+
+  &-title {
+    margin: 0 0 rem-calc($padding-small);
+    color: $primary-color;
+    font-size: rem-calc($font-size-medium);
+    line-height: 1.1;
+
+    @include breakpoint(large) {
+      margin: 0;
+      font-size: 1rem;
+      background-color: white;
+      padding: rem-calc(10);
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+}

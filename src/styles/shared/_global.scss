@@ -1,0 +1,73 @@
+body:not(.home) {
+  padding-top: rem-calc($navbar-height);
+}
+
+address {
+  font-style: normal;
+}
+
+.row {
+  @include breakpoint(large) {
+    padding: rem-calc(0 $padding-huge/2);
+
+    .row {
+      padding: 0;
+    }
+  }
+}
+
+.AppContent {
+  padding-top: rem-calc(50);
+  padding-bottom: rem-calc(50);
+
+  @include breakpoint(large) {
+    padding-top: rem-calc($padding-huge);
+    padding-bottom: rem-calc($padding-huge);
+  }
+}
+
+.cus_new_sec_content {
+  > h3 {
+    font-family: var(--font-aktiv-grotesk);
+    font-size: 18px;
+    font-weight: normal;
+    display: table;
+    max-width: 100%;
+    background: $primary-color;
+    color: $white;
+    padding: 8px 15px;
+    margin-bottom: 35px;
+
+    & + .rte {
+      font-family: var(--font-aktiv-grotesk);
+      color: #000;
+      padding-top: 25px;
+      border-top: 1px solid $primary-color;
+
+      > p,
+      ul,
+      ol {
+        margin-bottom: rem-calc(25);
+      }
+
+      ul {
+        > li {
+          &:before {
+            content: "›";
+            position: absolute;
+            top: -4.5px;
+            left: -0.7em;
+            font-size: 22px;
+            font-weight: bold;
+            color: $primary-color;
+            width: auto;
+            height: auto;
+            margin: 0;
+            border-radius: 0;
+            background: none;
+          }
+        }
+      }
+    }
+  }
+}

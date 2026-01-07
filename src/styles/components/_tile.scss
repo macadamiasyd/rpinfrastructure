@@ -1,0 +1,30 @@
+.Tile-title {
+  font-weight: 400;
+  font-size: 1rem;
+  margin: rem-calc(20) 0 0;
+  color: black;
+}
+
+.Tile-subTitle {
+  font-weight: 400;
+  font-size: 1rem;
+  margin-bottom: rem-calc(10);
+  color: $gray-dark;
+}
+
+.Tile-readMore {
+  cursor: pointer;
+
+  &:hover {
+    color: $primary-color;
+  }
+
+  &,
+  &:focus {
+    color: black;
+  }
+}
+
+.Tile-readMoreContent {
+  display: none;
+}

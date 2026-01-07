@@ -1,0 +1,34 @@
+@import "variables";
+
+.mce-content-body {
+  font-family: sans-serif;
+  color: $gray-dark;
+
+  .standfirst {
+    color: #000;
+  }
+
+  h3 {
+    color: $primary-color;
+  }
+
+  blockquote {
+    color: $primary-color;
+    font-weight: 500;
+    font-size: $font-size-medium * 1px;
+    margin-left: 0;
+  }
+
+  cite {
+    color: $primary-color;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1rem;
+  }
+}
+
+.u-forwardLink {
+  &:after {
+    content: ">";
+  }
+}

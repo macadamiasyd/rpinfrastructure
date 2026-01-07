@@ -1,0 +1,129 @@
+$footer-header-margin-bottom: 3;
+$footer-header-size: $font-size-small;
+$footer-header-lineheight: 1.25;
+// Sticky footer styles
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  @include breakpoint(large) {
+    padding-bottom: rem-calc(180);
+  }
+}
+
+.Footer {
+  background-color: white;
+  padding: rem-calc(30 0);
+  font-size: rem-calc($footer-header-size);
+  clear: both;
+
+  &-header {
+    margin-bottom: rem-calc($footer-header-margin-bottom);
+  }
+
+  &-header,
+  p,
+  address,
+  li {
+    font-size: rem-calc($footer-header-size);
+    line-height: $footer-header-lineheight;
+    font-weight: 400;
+    color: $gray;
+  }
+
+  &-header--dark {
+    color: $gray-dark;
+  }
+
+  a[href^="mailto"] {
+    @include inverse-link;
+  }
+
+  a {
+    color: $gray;
+  }
+
+  a:hover,
+  a:focus {
+    color: black;
+  }
+
+  address {
+    p {
+      margin-bottom: 0;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+
+  &-menu {
+    list-style: none;
+    margin-left: 0;
+    padding: 0;
+  }
+
+  @include breakpoint(large) {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: rem-calc(180);
+  }
+}
+
+.Footer-addresses {
+  .column {
+    @include breakpoint(medium down) {
+      margin-bottom: rem-calc(20);
+    }
+  }
+}
+
+.Footer-formField {
+  @extend %input-overrides;
+  border-bottom: 1px solid $gray;
+
+  &:focus {
+    border-bottom: 1px solid $gray-dark;
+  }
+}
+
+.Footer-button {
+  color: $gray-dark;
+  font-weight: 400;
+}
+
+.FooterMenu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @include breakpoint(large) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+  }
+}
+
+.FooterMenu-item {
+  &.menu-item-has-children {
+    a + a {
+      &:before {
+        content: " | ";
+      }
+    }
+  }
+}
+
+.Footer-copyright--right {
+  @include breakpoint(large) {
+    position: absolute;
+    bottom: rem-calc(30);
+    line-height: rem-calc(20);
+    margin-bottom: 0;
+    text-align: right;
+  }
+}

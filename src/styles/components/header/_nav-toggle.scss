@@ -1,0 +1,41 @@
+.NavToggle {
+  display: none;
+  float: right;
+  position: relative;
+  height: rem-calc($header-font-size);
+  margin: rem-calc($header-padding) 0;
+  color: $primary-color;
+  cursor: pointer;
+
+  @include column-padding;
+  @include breakpoint(medium down) {
+    display: block;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &-close {
+    display: none;
+    width: rem-calc(18);
+    height: rem-calc(18);
+    fill: $primary-color;
+
+    &:hover {
+      fill: $gray-dark;
+    }
+
+    .is-navOpen & {
+      display: block;
+    }
+  }
+
+  &-label {
+    display: block;
+
+    .is-navOpen & {
+      display: none;
+    }
+  }
+}

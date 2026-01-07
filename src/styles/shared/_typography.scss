@@ -1,0 +1,95 @@
+.Icon {
+  display: inline-block;
+  width: rem-calc(24);
+  height: rem-calc(24);
+}
+
+.Page-title {
+  @extend %large-orange-header;
+}
+
+h2 {
+  margin-bottom: rem-calc(20);
+}
+
+.rte {
+  font-size: rem-calc($font-size-regular);
+  .standfirst {
+    color: black;
+  }
+
+  h3 {
+    font-size: rem-calc($font-size-regular);
+    color: $primary-color;
+    font-weight: 300;
+  }
+
+  h4 {
+    font-size: rem-calc($font-size-regular);
+    color: black;
+    font-weight: 300;
+  }
+
+  blockquote {
+    &,
+    p {
+      @extend %large-orange-header;
+      font-weight: 500;
+      margin-top: rem-calc(30);
+      font-size: rem-calc($font-size-large);
+    }
+  }
+
+  cite {
+    color: $primary-color;
+    font-style: normal;
+    font-weight: 400;
+    margin-bottom: rem-calc(30);
+  }
+
+  .alignnone {
+    margin: rem-calc(10 0 20);
+  }
+
+  strong {
+    font-weight: 400;
+    color: black;
+  }
+
+  .u-forwardLink {
+    &:after {
+      content: url(/icons/arrow-right.svg);
+      margin-left: 0.3em;
+      text-decoration: none;
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 1em;
+    li {
+      position: relative;
+      &:before {
+        content: "";
+        width: 4px;
+        height: 4px;
+        border-radius: 4px;
+        background: $primary-color;
+        display: inline-block;
+        position: absolute;
+        margin-left: -1em;
+        top: 0.5em;
+      }
+    }
+  }
+
+  a {
+    color: black;
+    text-decoration: underline;
+  }
+
+  img {
+    margin: rem-calc(10 0 20);
+  }
+}

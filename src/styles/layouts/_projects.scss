@@ -1,0 +1,111 @@
+.Projects-backLink {
+  @extend %backlink;
+}
+
+.Project-leftColumn {
+  @include grid-column(14, $grid-column-gutter);
+
+  @include breakpoint(large) {
+    @include grid-column(3, $grid-column-gutter);
+  }
+}
+
+.Project-rightColumn {
+  @include grid-column(14, 0);
+
+  @include breakpoint(large) {
+    @include grid-column(8, $grid-column-gutter);
+    @include grid-column-end;
+  }
+
+  .Carousel {
+    margin-bottom: rem-calc(60);
+  }
+}
+
+.Project-contentRow {
+  @include grid-row();
+
+  @include breakpoint(large) {
+    @include grid-row-nest($grid-column-gutter);
+  }
+}
+
+.Projects-title,
+.Project-title {
+  @extend %large-orange-header;
+  padding-right: rem-calc(30);
+  margin-bottom: rem-calc($gutter);
+}
+
+.Project-title {
+  padding-right: rem-calc(40);
+}
+
+.Project-subTitle {
+  @extend %large-orange-header;
+  font-weight: 300;
+  padding-right: 30px;
+  margin-bottom: rem-calc($gutter);
+}
+
+.Project-metaWrap {
+  margin-bottom: rem-calc($padding-large);
+}
+
+.Project-meta {
+  font-size: rem-calc(16);
+  line-height: 1.2;
+
+  dt {
+    color: $primary-color;
+    padding-bottom: $defnlist-term-margin-bottom;
+    border-bottom: 1px solid $primary-color;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  dd {
+    margin-bottom: rem-calc(10);
+    font-weight: 400;
+    color: black;
+  }
+}
+
+.Project-termList {
+  display: flex;
+  flex-flow: row wrap;
+  gap: rem-calc(0) rem-calc(8);
+
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+  line-height: 1.2;
+
+  li {
+    display: inline-block;
+  }
+
+  a {
+    color: black;
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}
+
+.Project-detailsWrap {
+  font-size: rem-calc(18);
+  line-height: 1.125;
+
+  @include grid-column(14);
+
+  @include breakpoint(large) {
+    @include grid-column(8 of 8);
+  }
+}
+
+.Carousel--project {
+  @extend .u-spaceAfterHuge;
+}

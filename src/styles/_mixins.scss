@@ -1,0 +1,100 @@
+// Mod of foundation column mixin to get responsive gutters
+@mixin column-padding($columns: $grid-column-count, $gutter: $grid-column-gutter) {
+  // Gutters
+  @if type-of($gutter) == "map" {
+    @each $breakpoint, $value in $gutter {
+      $padding: rem-calc($value) / 2;
+
+      @include breakpoint($breakpoint) {
+        padding-left: $padding;
+        padding-right: $padding;
+      }
+    }
+  } @else if type-of($gutter) == "number" and strip-unit($gutter) > 0 {
+    $padding: rem-calc($gutter) / 2;
+    padding-left: $padding;
+    padding-right: $padding;
+  }
+}
+
+@mixin hover-arrow($text: " View projects ", $selector: "&") {
+  #{$selector}:hover,
+  #{$selector}:focus {
+    text-decoration: underline;
+
+    &:after {
+      content: $text url(/icons/arrow-right.svg);
+      display: inline-block;
+      margin-left: 0.3em;
+      text-decoration: none;
+      color: $black;
+    }
+  }
+}
+
+%large-orange-header {
+  font-size: rem-calc($font-size-small);
+  line-height: 26 / $font-size-medium;
+  font-weight: 500;
+  color: $primary-color;
+
+  @include breakpoint(large) {
+    font-size: rem-calc($font-size-medium);
+  }
+}
+
+%tile-rollover-transition {
+  img {
+    backface-visibility: hidden;
+  }
+
+  &:hover,
+  &:focus {
+    img {
+      opacity: 0.8;
+    }
+  }
+}
+
+@mixin inverse-link {
+  color: black;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    color: $body-font-color;
+  }
+}
+
+@mixin animation-base($duration: 1s) {
+  animation-duration: $duration;
+  animation-fill-mode: both;
+}
+
+@mixin pullquote-text {
+  font-size: rem-calc(45);
+  font-weight: 700;
+  line-height: 1;
+  color: $gray-light;
+
+  @include breakpoint(large) {
+    font-size: rem-calc(90);
+  }
+}
+
+%backlink {
+  color: black;
+  display: block;
+  margin-bottom: rem-calc($padding-medium);
+
+  @include breakpoint(large) {
+    margin-bottom: rem-calc($padding-large);
+  }
+
+  &:hover,
+  &:focus {
+    svg {
+      fill: $primary-color;
+    }
+  }
+}

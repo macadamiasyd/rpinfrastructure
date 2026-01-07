@@ -1,0 +1,116 @@
+.Menu {
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+
+  &-item {
+    &.is-active,
+    &:hover,
+    &:focus {
+      outline: none;
+
+      .Menu-itemLabel {
+        color: $gray-dark;
+      }
+    }
+
+    &:before {
+      content: unset !important;
+    }
+
+    &:last-child {
+      .Menu-itemLabel {
+        padding-right: 0;
+      }
+    }
+
+    @include breakpoint(large) {
+      float: left;
+    }
+  }
+
+  &-itemLabel {
+    font-family: var(--font-ridley-grotesk);
+    font-weight: 600;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    color: #fff !important;
+    padding-top: 40px;
+    line-height: 24px;
+    cursor: pointer;
+    display: block;
+    text-transform: capitalize;
+    font-size: rem-calc($font-size-medium);
+
+    &:has(.Search) {
+      line-height: 1;
+    }
+
+    @include breakpoint(large) {
+      display: inline-block;
+      padding-block: rem-calc(40);
+    }
+
+    @include breakpoint(xlarge) {
+      font-size: rem-calc(14);
+    }
+  }
+
+  // stagger them in when mobile nav open
+  @include breakpoint(medium down) {
+    transform: translateY(-10px);
+    transition:
+      opacity 0.5s ease-in-out,
+      transform 0.5s ease-in-out,
+      visibility 0s 0.5s;
+    visibility: hidden;
+    transition-delay: 0s, 0s, 0.5s;
+    opacity: 0;
+
+    .is-navOpen & {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+      @for $i from 1 through 10 {
+        &:nth-child(#{$i}) {
+          transition-delay: #{0.1 * $i}s;
+        }
+      }
+    }
+  }
+
+  &-dropdown {
+    list-style: none;
+    margin: 0;
+    display: none;
+
+    li {
+      a {
+        color: $primary-color;
+        padding-top: rem-calc(2);
+        padding-bottom: rem-calc(2);
+        line-height: 1em;
+      }
+
+      &.is-active,
+      &:focus,
+      &:hover {
+        > a,
+        > span {
+          color: $white;
+        }
+      }
+    }
+
+    &.is-active {
+      display: block;
+    }
+  }
+}
+
+// prevent scrolling when nav open
+@include breakpoint(medium down) {
+  body.is-navOpen {
+    overflow: clip !important;
+  }
+}

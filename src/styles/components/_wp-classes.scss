@@ -1,0 +1,38 @@
+.wp-caption {
+  max-width: 100%;
+}
+
+.alignnone {
+  margin-left: 0;
+  margin-right: 0;
+  max-width: 100%;
+  height: auto;
+}
+
+.aligncenter {
+  display: block;
+  margin: rem-calc($gutter / 2) auto;
+  height: auto;
+}
+
+.alignleft,
+.alignright {
+  margin-bottom: rem-calc($gutter / 2);
+  height: auto;
+}
+
+@include breakpoint(large) {
+  .alignleft {
+    float: left;
+    margin-right: rem-calc($gutter / 2);
+  }
+  .alignright {
+    float: right;
+    margin-left: rem-calc($gutter / 2);
+  }
+}
+
+.wp-caption-text {
+  font-size: rem-calc(14);
+  margin-top: rem-calc(10);
+}

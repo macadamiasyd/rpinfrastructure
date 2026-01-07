@@ -1,0 +1,110 @@
+.u-bounceUp {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+  &.is-inView {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.u-insetWrap {
+  @include grid-column-row;
+
+  @include breakpoint(large) {
+    width: 71.4285714286%;
+    @include grid-column(12 of 14);
+    @include grid-column-position(center);
+  }
+
+  @include breakpoint(xlarge) {
+    @include grid-column(10 of 14);
+    @include grid-column-position(center);
+  }
+}
+
+.u-wrap {
+  @include grid-column-row();
+}
+
+.u-spaceAfterSmall {
+  margin-bottom: rem-calc($padding-medium) !important;
+}
+
+.u-spaceBeforeLarge {
+  margin-top: rem-calc($padding-large);
+
+  @include breakpoint(large) {
+    margin-top: rem-calc($padding-large * 2);
+  }
+}
+
+.u-spaceAfterHuge {
+  margin-bottom: rem-calc($padding-huge/2);
+
+  @include breakpoint(large) {
+    margin-bottom: rem-calc($padding-huge);
+  }
+}
+
+.u-spaceBeforeHuge {
+  margin-top: rem-calc($padding-huge/2);
+
+  @include breakpoint(large) {
+    margin-top: rem-calc($padding-huge);
+  }
+}
+
+.u-linkForward,
+.u-linkBack {
+  display: inline-flex;
+  align-items: center;
+  gap: rem-calc(8);
+  font-weight: 400;
+  transition: color 0.3s ease-in-out;
+  text-decoration: none;
+
+  span {
+    vertical-align: middle;
+    text-decoration: inherit !important;
+  }
+
+  .Icon {
+    vertical-align: middle;
+    width: 0.75em;
+    height: 0.75em;
+    margin: 0 !important;
+    fill: currentColor;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  &:hover {
+    color: $primary-color;
+    text-decoration: none !important;
+
+    .Icon {
+      transform: translateX(5px);
+    }
+  }
+}
+
+.u-linkBack {
+  display: flex;
+  align-items: center;
+  gap: rem-calc($padding-small);
+
+  &:hover {
+    .Icon {
+      transform: translateX(-5px);
+    }
+  }
+}
+
+.h100 {
+  height: 100%;
+}
+
+.relative {
+  position: relative;
+}

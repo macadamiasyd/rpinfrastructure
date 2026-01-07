@@ -1,0 +1,34 @@
+:root {
+  --swiper-pagination-bullet-width: 10px;
+  --swiper-pagination-bullet-height: 10px; //fefefe
+  --swiper-pagination-bullet-inactive-opacity: 0.25;
+  --swiper-pagination-bullet-inactive-color: #fefefe;
+  --swiper-pagination-color: #fefefe;
+  --swiper-pagination-bullet-horizontal-gap: 10px;
+  --swiper-pagination-bottom: 40px;
+}
+
+$page-header-height: 250;
+$navbar-height: 80;
+$footer-height: 100;
+$header-font-size: 18;
+$header-padding: ($navbar-height - $header-font-size)/2;
+$header-burger-border-width: 2;
+
+$gutter: 20px;
+
+$font-size-large: 30;
+$font-size-medium: 22;
+$font-size-regular: 18;
+$font-size-small: 16;
+
+$padding-small: 10;
+$padding-medium: 20;
+$padding-large: 40;
+$padding-huge: 100;
+
+$primary-color: #ff3a1e;
+$gray-lighter: #f1f1f2;
+$gray-light: #c1c7c8;
+$gray: #848986;
+$gray-dark: #58585a;

@@ -1,0 +1,50 @@
+.PullQuote {
+  padding-right: rem-calc(30);
+
+  &,
+  p {
+    @extend %large-orange-header;
+    font-weight: 400;
+  }
+
+  p {
+    margin-bottom: rem-calc($padding-medium);
+    font-size: rem-calc($font-size-small);
+
+    @include breakpoint(large) {
+      font-size: rem-calc($font-size-medium);
+    }
+  }
+
+  &-blockquote,
+  blockquote {
+    &,
+    p {
+      @extend %large-orange-header;
+      font-weight: 500;
+      font-size: rem-calc($font-size-regular);
+
+      @include breakpoint(large) {
+        font-size: rem-calc($font-size-large);
+      }
+    }
+  }
+
+  &-cite,
+  cite {
+    color: $primary-color;
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  &-readMore {
+    color: black;
+    font-size: 1rem;
+
+    &:hover {
+      .Icon {
+        fill: $primary-color;
+      }
+    }
+  }
+}

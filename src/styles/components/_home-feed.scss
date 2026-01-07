@@ -1,0 +1,48 @@
+.HomeFeed {
+  @extend .u-spaceAfterHuge;
+  @extend .u-spaceBeforeHuge;
+}
+
+.HomeFeed-title {
+  @extend %large-orange-header;
+  font-weight: 300;
+}
+
+.HomeFeed-row {
+  @include grid-row();
+
+  @include breakpoint(large) {
+    @include grid-row(null, "nest");
+  }
+}
+
+.HomeFeed-tile {
+  display: block;
+
+  @extend %tile-rollover-transition;
+
+  @include grid-column-size(14);
+  margin-top: rem-calc($gutter);
+
+  @include breakpoint(large) {
+    @include grid-column(4 of 10);
+  }
+
+  .LazyLoad {
+    padding-bottom: percentage(300px / 380px);
+    position: relative;
+    height: 0;
+  }
+
+  &:nth-child(3n + 1) {
+    @include breakpoint(large) {
+      @include grid-column(6 of 10);
+
+      .LazyLoad {
+        padding-bottom: percentage(300px / 580px);
+        position: relative;
+        height: 0;
+      }
+    }
+  }
+}

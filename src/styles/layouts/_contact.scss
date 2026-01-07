@@ -1,0 +1,19 @@
+.Contact-title {
+  @extend %large-orange-header;
+  margin-bottom: rem-calc($gutter);
+}
+
+.Contact-mapLink {
+  color: black;
+  display: block;
+  margin-top: rem-calc(10);
+}
+
+.Contact-body {
+  font-weight: 400;
+  font-size: 1rem;
+
+  a {
+    @include inverse-link;
+  }
+}

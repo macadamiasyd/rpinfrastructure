@@ -1,0 +1,22 @@
+.RelatedProjects {
+  @extend .u-spaceBeforeHuge;
+
+  &-title {
+    font-size: 1rem;
+    color: black;
+  }
+
+  &-rule {
+    border-bottom: 3px solid white;
+  }
+
+  &-list {
+    @include grid-layout(2, ".Tile", $gutter);
+
+    @include breakpoint(large) {
+      @include grid-layout(5, ".Tile", $gutter);
+    }
+
+    @include grid-row-nest($gutter);
+  }
+}

@@ -1,0 +1,43 @@
+.Careers-title {
+  @extend %large-orange-header;
+}
+
+.Careers-body {
+  @extend .u-spaceAfterHuge;
+}
+
+.Careers-sidebar {
+  color: black;
+
+  .standfirst {
+    color: $primary-color;
+  }
+}
+
+// .CareersList-description {
+//   display: none;
+
+//   a {
+//     color: black;
+//   }
+
+//   & + .CareersList-role {
+//     margin-top: rem-calc(10);
+//   }
+// }
+
+// .CareersList-date {
+//   margin-bottom: rem-calc(10);
+//   display: block;
+// }
+
+// .CareersList-role {
+//   cursor: pointer;
+//   margin-bottom: rem-calc(10);
+//   font-weight: 400;
+//   transition: color .5s ease-out;
+
+//   &.is-active {
+//     color: black;
+//   }
+// }

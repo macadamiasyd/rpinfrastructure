@@ -1,0 +1,13 @@
+.Pagination {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+
+  &-item {
+    display: inline-block;
+  }
+
+  .is-current {
+    color: black;
+  }
+}

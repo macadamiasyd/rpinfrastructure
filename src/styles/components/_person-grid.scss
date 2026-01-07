@@ -1,0 +1,39 @@
+.PersonGrid {
+  @include grid-layout(2, ".Tile", $gutter);
+
+  @include breakpoint(large) {
+    @include grid-layout(4, ".Tile", $gutter);
+  }
+  @include grid-row;
+  @include grid-row-nest($gutter);
+
+  &-thumb {
+    margin-bottom: rem-calc($gutter);
+    font-weight: 400;
+  }
+
+  // .Tile-content {
+  //   @include show-for(large);
+  // }
+
+  .Tile-readMoreContent {
+    display: block !important;
+    overflow: hidden;
+    position: relative;
+    max-height: 0;
+    transition: max-height 0.3s ease-in-out;
+
+    &[aria-expanded="true"] {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+  }
+}
+
+.PersonGrid-thumb {
+  .LazyLoad {
+    cursor: default;
+    display: block;
+    padding-bottom: 59.70149254%;
+  }
+}

@@ -1,0 +1,51 @@
+.Overlay {
+  display: none;
+  opacity: 0;
+  z-index: 1083;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: $gray-lighter;
+  padding-top: rem-calc($padding-huge);
+  padding-bottom: rem-calc($padding-huge/2);
+  transition: opacity 0.5s ease-in-out;
+
+  @include breakpoint(large) {
+    display: none !important;
+  }
+}
+
+div[role="main"] {
+  position: relative;
+}
+
+.Overlay-navWrap {
+  position: absolute;
+  top: rem-calc($padding-huge);
+  width: 100%;
+  z-index: 0;
+}
+
+.OverlayNav {
+  padding-bottom: 59.75%;
+
+  &-link {
+    position: absolute;
+    font-size: rem-calc(50);
+    transform: translateY(-50%);
+
+    &.next {
+      right: -20px;
+    }
+
+    &.prev {
+      left: -20px;
+    }
+  }
+}
+
+.Carousel--person {
+  z-index: 1;
+}
