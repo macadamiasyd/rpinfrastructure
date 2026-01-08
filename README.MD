@@ -1,147 +1,129 @@
-# RP Infrastructure Rebuild
+# RP Infrastructure
 
-Modern headless WordPress + Next.js solution with GraphQL integration and authentication support.
+Modern headless WordPress + Next.js app with GraphQL integration.
 
 ## Tech Stack
 
-- **Framework**: Next.js 16 + App Router + TypeScript + Turbopack
-- **API**: GraphQL + GraphQL Code Generator (Client Preset)
-- **GraphQL Client**: TanStack Query + graphql-request
-- **Authentication**: Basic Auth support for GraphQL endpoints
-- **Code Quality**: ESLint + Prettier + Husky + lint-staged
-- **Styling**: CSS Modules
-- **Node.js**: 24.11.0 (see .nvmrc)
+- Framework: Next.js 16 (App Router) + TypeScript
+- GraphQL: WPGraphQL + ACF, Apollo Client (Next integration)
+- Codegen: GraphQL Code Generator (client preset) → types/utilities in `src/graphql/generated`
+- Styling: Sass (SCSS) + custom styles
+- UI/UX: Swiper for carousels
+- Code Quality: ESLint + Prettier + Husky + lint-staged
 
-## Getting Started
+## Quick Start
 
-### Prerequisites
-
-- Node.js 24.11.0 (use `nvm use` if you have nvm installed)
-- npm or yarn
-
-### Installation
+- Install dependencies:
 
 ```bash
 npm install
 ```
 
-### Environment Setup
-
-Copy `.env.local.example` to `.env.local` and configure:
-
-```env
-# API Endpoints
-API_URL=https://example.com/graphql
-
-# Site URL
-SITE_URL=https://example.com
-
-# Authentication
-BASIC_AUTH_USERNAME=username
-BASIC_AUTH_PASSWORD=password
-```
-
-### Development
+- Run development server:
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-### GraphQL Code Generation
+## Environment Variables
 
-Generate TypeScript types and hooks from your GraphQL schema:
+Create `.env.local` and set:
 
-```bash
-npm run codegen          # One-time generation
-npm run codegen:watch    # Watch mode
+```env
+# Required: GraphQL endpoint
+API_URL=https://example.com/graphql
+
+# Optional: Basic Auth for protected endpoints
+BASIC_AUTH_USERNAME=username
+BASIC_AUTH_PASSWORD=password
+
+# Domains for link normalization (replaceDomain / normalizeAppHref)
+# FRONTEND_DOMAIN — the frontend host (e.g. localhost:3000 or prod host)
+# API_DOMAIN — the source WordPress site host (without protocol)
+FRONTEND_DOMAIN=localhost:3000
+API_DOMAIN=example.com
 ```
 
-## Available Scripts
+## Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run lint:fix` - Fix ESLint issues
-- `npm run format` - Format code with Prettier
-- `npm run format:check` - Check code formatting
-- `npm run type-check` - Check TypeScript types
-- `npm run codegen` - Generate GraphQL types and hooks
-- `npm run codegen:watch` - Watch GraphQL files and regenerate
+- `npm run dev` — Development server
+- `npm run build` — Build
+- `npm run start` — Production server
+- `npm run lint` — ESLint
+- `npm run lint:fix` — Fix ESLint issues
+- `npm run format` — Prettier format
+- `npm run format:check` — Check formatting
+- `npm run type-check` — TypeScript check
+- `npm run codegen` — GraphQL types/utilities generation
+- `npm run codegen:watch` — Codegen watch mode
 
-## Code Quality
+## GraphQL Integration
 
-This project uses:
+- Apollo Client is configured via Next integration: [client.ts](./src/lib/api/client.ts)
+  - Uses `registerApolloClient`, `HttpLink`, and `SetContextLink` for Basic Auth headers.
+  - ACF/block fragments are registered via `createFragmentRegistry`.
 
-- **ESLint** with Next.js and TypeScript rules
-- **Prettier** with import sorting (@ianvs/prettier-plugin-sort-imports)
-- **Husky** for git hooks
-- **lint-staged** for running linters on staged files only
-- **TypeScript** for type safety
+Server-side query example:
 
-Pre-commit hooks automatically run linting and formatting on staged files.
+```ts
+import { PageQuery } from "@/graphql/queries/page";
+import { query } from "@/lib/api/client";
+
+const { data } = await query({ query: PageQuery, variables: { slug: "/about/" } });
+```
+
+Codegen is configured in [codegen.ts](./codegen.ts) and outputs to `src/graphql/generated/`.
+
+For detailed setup and configuration, see [GRAPHQL_SETUP.md](./GRAPHQL_SETUP.md).
 
 ## Project Structure
 
 ```
 ├── src/
-│   ├── app/              # Next.js App Router pages
-│   ├── graphql/          # GraphQL queries and generated files
-│   │   ├── queries/      # GraphQL queries (TypeScript)
-│   │   ├── mutations/    # GraphQL mutations
-│   │   ├── fragments/    # GraphQL fragments
-│   │   └── generated/    # Auto-generated types and hooks
-│   ├── lib/              # Libraries and clients
-│   │   └── graphql-client.ts  # GraphQL client configuration
-│   ├── providers/        # React providers
-│   │   └── query-client-provider.tsx  # TanStack Query setup
-│   └── utilities/        # Utility functions
-│       └── getBasicAuthToken.ts  # Authentication utilities
-├── public/               # Static assets
-├── .husky/               # Git hooks
-├── codegen.config.ts     # GraphQL Code Generator configuration
-├── .nvmrc                # Node.js version
-└── lint-staged.config.mjs  # lint-staged configuration
+  ├── app/                      # Next.js App Router pages
+  │   ├── project/[slug]/       # Project details page
+  │   ├── portfolio/            # Projects archive page
+  │   ├── news/                 # News archive pages
+  │   ├── search/               # Search page
+  │   ├── locations/            # Locations pages
+  │   ├── sectors/              # Sector pages
+  │   ├── people/               # People page
+  │   ├── preview/              # Preview page
+  │   ├── layout.tsx            # Root layout
+  │   └── page.tsx              # Home page
+  ├── components/               # UI components
+  │   ├── blocks/               # ACF block components
+  │   ├── projects-carousel/    # Swiper projects carousel
+  │   ├── post-carousel/        # Post/Project carousel
+  │   ├── projects-filter/      # Projects filter
+  │   ├── projects-filter-archive/ # Filtered archive
+  │   ├── projects-listing/     # Projects listing grid
+  │   ├── cards/                # Card components
+  │   └── shared/               # Shared UI (icons, media, navigation)
+  ├── graphql/                  # GraphQL queries and generated files
+  │   ├── block-fragments/      # ACF block fragments (gql)
+  │   ├── fragments/            # Common fragments (image, seo, link)
+  │   ├── queries/              # GraphQL queries (gql)
+  │   └── generated/            # Auto-generated types and utilities
+  ├── lib/                      # Libraries and clients
+  │   ├── api/                  # Apollo Client setup
+  │   └── utilities/            # sanitizeHtml, replaceDomain, queryProjects, etc.
+  ├── styles/                   # SCSS styles
+  └── fonts/                    # Web fonts
 ```
 
-## GraphQL Integration
+## Navigation and Filters
 
-This project uses **GraphQL Code Generator** with **Client Preset** for modern GraphQL development:
+- Filter persistence across related project navigation and archive:
+  - Related Projects pass `hrefQuery` so returning to the archive restores the original filters.
+  - Back to projects on the project page respects current URL and referer:
+    - If filters are in the current URL → return to `/portfolio` with those filters.
+    - If arrived from `/portfolio` → return to that page with original query.
+    - If arrived from `/project` without filters → return to clean `/portfolio`.
 
-### Features
+## Notes
 
-- ✅ **TypeScript Code Generation** - Automatic type generation from GraphQL schema
-- ✅ **TanStack Query Integration** - Optimized data fetching with caching
-- ✅ **Basic Authentication** - Support for protected GraphQL endpoints
-- ✅ **Client Preset** - Modern approach with `gql` tag function
-- ✅ **Watch Mode** - Automatic regeneration on schema changes
-
-### Usage Example
-
-```typescript
-import { gql } from "@/graphql/generated";
-import { graphqlClient } from "@/lib/graphql-client";
-import { useQuery } from "@tanstack/react-query";
-
-const GET_POSTS = gql(`
-  query GetPosts {
-    posts {
-      nodes {
-        id
-        title
-        slug
-      }
-    }
-  }
-`);
-
-// In component
-const { data, isLoading } = useQuery({
-  queryKey: ["posts"],
-  queryFn: () => graphqlClient.request(GET_POSTS),
-});
-```
-
-For detailed GraphQL setup instructions, see [GRAPHQL_SETUP.md](./GRAPHQL_SETUP.md).
+- Set `FRONTEND_DOMAIN` and `API_DOMAIN` for correct link domain replacement.
+- Set `BASIC_AUTH_USERNAME`/`BASIC_AUTH_PASSWORD` if the GraphQL endpoint requires Basic Auth.

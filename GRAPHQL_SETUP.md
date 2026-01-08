@@ -2,87 +2,94 @@
 
 ## Overview
 
-This project uses **GraphQL Code Generator** with **Client Preset** and **Basic Authentication** support for WordPress GraphQL endpoints.
+This project uses GraphQL Code Generator (Client Preset) together with Apollo Client (Next.js integration) and optional Basic Authentication for WordPress GraphQL endpoints.
 
 ## Configuration Files
 
-### `codegen.ts`
+- codegen: [codegen.ts](./codegen.ts)
+  - Loads API_URL from environment
+  - Adds Basic Auth header via getBasicAuthToken
+  - Uses Client Preset to generate typed gql documents into src/graphql/generated
+  - Configures custom scalars and maybeValue
 
-Advanced TypeScript configuration with:
+- Apollo Client: [client.ts](./src/lib/api/client.ts)
+  - Registers ApolloClient via Next integration (registerApolloClient)
+  - HttpLink points to API_URL
+  - SetContextLink attaches Basic Auth header when present
+  - Registers ACF/block fragments with createFragmentRegistry
+  - Exposes helpers: getClient, query, PreloadQuery
 
-- Basic Authentication support
-- Environment variables
-- Client preset for modern GraphQL usage
-
-### `src/utilities/getBasicAuthToken.ts`
-
-Utility function for generating Basic Auth tokens from environment variables.
+- Auth helper: [getBasicAuthToken.ts](./src/lib/utilities/getBasicAuthToken.ts)
+  - Builds Basic <base64(username:password)> token from environment variables
 
 ## Environment Variables
 
-Create `.env.local` file with:
+Create `.env.local` with:
 
 ```env
-# API Endpoints
+# Required: GraphQL endpoint
 API_URL=https://example.com/graphql
 
-# Site URL
-SITE_URL=https://example.com
-
-# Authentication
+# Optional: Basic Auth credentials
 BASIC_AUTH_USERNAME=username
 BASIC_AUTH_PASSWORD=password
+
+# Optional: domains for link normalization utilities
+FRONTEND_DOMAIN=localhost:3000
+API_DOMAIN=example.com
 ```
 
 ## Usage
 
-### 1. Generate Types and Hooks
+### 1) Generate Types
 
 ```bash
 npm run codegen
 ```
 
-### 2. Watch Mode
+### 2) Watch Mode
 
 ```bash
 npm run codegen:watch
 ```
 
-### 3. Using Generated Code
+### 3) Query Example (Server-side)
 
-```typescript
-import { gql } from "@/graphql/generated";
-import { useQuery } from "@tanstack/react-query";
+```ts
+import { PageQuery } from "@/graphql/queries/page";
+import { query } from "@/lib/api/client";
 
-const GET_POSTS = gql(`
-  query GetPosts {
-    posts {
-      nodes {
-        id
-        title
-        slug
-      }
-    }
-  }
-`);
-
-// In component
-const { data, isLoading } = useQuery({
-  queryKey: ["posts"],
-  queryFn: () => graphqlClient.request(GET_POSTS),
+const { data } = await query({
+  query: PageQuery,
+  variables: { slug: "/about/" },
 });
 ```
 
+You can also pass Next.js cache options via `context.fetchOptions`:
+
+```ts
+await query({
+  query: PageQuery,
+  variables: { slug: "/about/" },
+  context: { fetchOptions: { next: { tags: ["page:/about/"], revalidate: 3600 } } },
+});
+```
+
+### 4) Using Generated Documents
+
+- Import the gql documents directly from your query files (they are typed via Client Preset).
+- Import utilities like `gql` or fragments from `src/graphql/generated` as needed.
+
 ## Features
 
-- ✅ **Client Preset**: Modern GraphQL Code Generator approach
-- ✅ **Basic Authentication**: Secure WordPress GraphQL access
-- ✅ **TypeScript**: Full type safety
-- ✅ **TanStack Query**: Optimized data fetching
-- ✅ **Environment Variables**: Flexible configuration
+- Client Preset: modern GraphQL development with typed documents
+- Basic Authentication: secure access to protected GraphQL endpoints
+- Apollo Client: Next.js integration and fragment registry
+- TypeScript: strong typing for queries and responses
+- Environment Variables: flexible configuration across environments
 
 ## Generated Files
 
-- `src/graphql/generated/` - All generated types and utilities
-- `src/graphql/generated/gql.ts` - GraphQL tag function
-- `src/graphql/generated/graphql.ts` - TypeScript types
+- src/graphql/generated/ — Generated types/utilities
+- src/graphql/generated/gql.ts — Typed gql tag
+- src/graphql/generated/graphql.ts — TypeScript types for schema/entities
