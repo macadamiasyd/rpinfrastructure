@@ -34,6 +34,11 @@ API_URL=https://example.com/graphql
 BASIC_AUTH_USERNAME=username
 BASIC_AUTH_PASSWORD=password
 
+# Optional: Draft Mode (Application Passwords)
+# Use WordPress Application Passwords when draft mode is enabled
+DRAFT_AUTH_USERNAME=wpadmin
+DRAFT_AUTH_PASSWORD=application-password
+
 # Optional: domains for link normalization utilities
 FRONTEND_DOMAIN=localhost:3000
 API_DOMAIN=example.com
@@ -84,6 +89,7 @@ await query({
 
 - Client Preset: modern GraphQL development with typed documents
 - Basic Authentication: secure access to protected GraphQL endpoints
+- Application Passwords: recommended for remote requests (WordPress 5.6+)
 - Apollo Client: Next.js integration and fragment registry
 - TypeScript: strong typing for queries and responses
 - Environment Variables: flexible configuration across environments
@@ -93,3 +99,8 @@ await query({
 - src/graphql/generated/ — Generated types/utilities
 - src/graphql/generated/gql.ts — Typed gql tag
 - src/graphql/generated/graphql.ts — TypeScript types for schema/entities
+
+## References
+
+- Application Passwords: Integration Guide — https://make.wordpress.org/core/2020/11/05/application-passwords-integration-guide/
+- WPGraphQL Authentication & Authorization — https://www.wpgraphql.com/docs/authentication-and-authorization

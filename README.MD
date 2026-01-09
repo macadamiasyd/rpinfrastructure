@@ -39,6 +39,11 @@ API_URL=https://example.com/graphql
 BASIC_AUTH_USERNAME=username
 BASIC_AUTH_PASSWORD=password
 
+# Optional: Draft Mode Basic Auth (WordPress Application Passwords)
+DRAFT_AUTH_USERNAME=wpadmin
+DRAFT_AUTH_PASSWORD=application-password
+PREVIEW_SECRET_TOKEN=secret-token
+
 # Domains for link normalization (replaceDomain / normalizeAppHref)
 # FRONTEND_DOMAIN — the frontend host (e.g. localhost:3000 or prod host)
 # API_DOMAIN — the source WordPress site host (without protocol)
@@ -77,6 +82,22 @@ const { data } = await query({ query: PageQuery, variables: { slug: "/about/" } 
 Codegen is configured in [codegen.ts](./codegen.ts) and outputs to `src/graphql/generated/`.
 
 For detailed setup and configuration, see [GRAPHQL_SETUP.md](./GRAPHQL_SETUP.md).
+
+## Preview Mode
+
+- Enable preview (draft mode) via:
+  - `GET /api/preview?post_id=<ID>&secret_token=<PREVIEW_SECRET_TOKEN>`
+  - Requires `PREVIEW_SECRET_TOKEN` in env
+  - Redirects to `/preview` which renders post/page/project by `post_id`
+- Exit preview via:
+  - `GET /api/exit-preview`
+- Server-side requests in draft mode use Draft Basic Auth:
+  - `DRAFT_AUTH_USERNAME` / `DRAFT_AUTH_PASSWORD`
+- Relevant files:
+  - API routes: [`src/app/api/preview/route.ts`](./src/app/api/preview/route.ts), [`src/app/api/exit-preview/route.ts`](./src/app/api/exit-preview/route.ts)
+  - Preview page: [`src/app/preview/page.tsx`](./src/app/preview/page.tsx)
+  - Data fetch: [`src/lib/utilities/getPreviewData.ts`](./src/lib/utilities/getPreviewData.ts)
+  - Apollo client/auth: [`src/lib/api/client.ts`](./src/lib/api/client.ts)
 
 ## Project Structure
 
@@ -122,6 +143,10 @@ For detailed setup and configuration, see [GRAPHQL_SETUP.md](./GRAPHQL_SETUP.md)
     - If filters are in the current URL → return to `/portfolio` with those filters.
     - If arrived from `/portfolio` → return to that page with original query.
     - If arrived from `/project` without filters → return to clean `/portfolio`.
+  - Term links on the project page navigate to:
+    - Category → `/portfolio?category=<slug>`
+    - Service → `/portfolio?service=<slug>`
+    - Location → `/portfolio?location=<slug>`
 
 ## Notes
 
