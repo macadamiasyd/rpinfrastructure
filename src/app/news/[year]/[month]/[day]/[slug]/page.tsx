@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import type { Metadata } from "next/types";
@@ -7,9 +6,8 @@ import { PostQuery, PostSeoQuery } from "@/graphql/queries/news";
 import { query } from "@/lib/api/client";
 import { generatePageMetadata } from "@/lib/utilities/generatePageMetadata";
 import { replaceDomain } from "@/lib/utilities/replaceDomain";
-import { sanitizeHTML } from "@/lib/utilities/sanitizeHtml";
 
-import PostCarousel from "@/components/post-carousel";
+import PostView from "@/components/post-view";
 
 type Props = {
   params: Promise<PageParams>;
@@ -61,10 +59,6 @@ export default async function Post({ params }: Props) {
 
   const { post } = data;
 
-  const { content, carousel, featuredImage } = post;
-
-  const split_content = content ? content.split("<!--more-->") : [];
-
   return (
     <div className="AppContent row" role="main">
       {post?.seo?.schema?.raw && (
@@ -77,39 +71,7 @@ export default async function Post({ params }: Props) {
           }}
         />
       )}
-      <div className="columns large-3">
-        <Link href="/news" className="u-linkBack Projects-backLink">
-          <svg className="Icon Icon-arrow-left">
-            <use xlinkHref="#icon-arrow-left" />
-          </svg>
-          Back to news
-        </Link>
-        <h2 className="Post-title">{post.title}</h2>
-      </div>
-      <article className="columns large-8 end Post">
-        <PostCarousel carousel={carousel} featuredImage={featuredImage} />
-        {content && (
-          <div className="row rte">
-            {split_content.length > 1 ? (
-              <>
-                <div
-                  className="Post-standfirst"
-                  dangerouslySetInnerHTML={{ __html: sanitizeHTML(split_content[0]) }}
-                />
-                <div
-                  className="Post-main"
-                  dangerouslySetInnerHTML={{ __html: sanitizeHTML(split_content[1]) }}
-                />
-              </>
-            ) : (
-              <div
-                className="Post-main has-no-standfirst"
-                dangerouslySetInnerHTML={{ __html: sanitizeHTML(content) }}
-              />
-            )}
-          </div>
-        )}
-      </article>
+      <PostView post={post} backHref="/news" />
     </div>
   );
 }

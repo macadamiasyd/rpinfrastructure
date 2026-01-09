@@ -1,21 +1,25 @@
 import type { Metadata } from "next";
 import type { PostTypeSeo, TaxonomySeo } from "@/graphql/generated/graphql";
 
+import { replaceDomain } from "./replaceDomain";
+
 export const generatePageMetadata = (source?: PostTypeSeo | TaxonomySeo | null): Metadata => {
-  const twitter = {
-    title: source?.twitterTitle ?? undefined,
-    description: source?.twitterDescription ?? undefined,
-    images: source?.twitterImage?.guid ?? undefined,
-  };
-  const openGraph = {
-    type: source?.opengraphType ?? undefined,
-    title: source?.opengraphTitle ?? undefined,
-    description: source?.opengraphDescription ?? undefined,
-    url: source?.opengraphUrl ?? undefined,
-    siteName: source?.opengraphSiteName ?? undefined,
-    images: source?.opengraphImage?.guid ?? undefined,
-    modifiedTime: source?.opengraphModifiedTime ?? undefined,
-  };
+  const filterUndefined = (obj: Record<string, any>) =>
+    Object.fromEntries(Object.entries(obj).filter(([, value]) => value !== undefined));
+  const twitter = filterUndefined({
+    title: source?.twitterTitle,
+    description: source?.twitterDescription,
+    images: source?.twitterImage?.guid,
+  });
+  const openGraph = filterUndefined({
+    type: source?.opengraphType ?? "website",
+    title: source?.opengraphTitle,
+    description: source?.opengraphDescription,
+    url: source?.opengraphUrl ? replaceDomain(source?.opengraphUrl) : undefined,
+    siteName: source?.opengraphSiteName,
+    images: source?.opengraphImage?.guid,
+    modifiedTime: source?.opengraphModifiedTime,
+  });
   const robots = {
     index: true,
     follow: true,
@@ -29,7 +33,7 @@ export const generatePageMetadata = (source?: PostTypeSeo | TaxonomySeo | null):
   return {
     description: source?.metaDesc ?? "",
     robots,
-    openGraph,
-    twitter,
+    openGraph: Object.keys(openGraph).length > 0 ? openGraph : undefined,
+    twitter: Object.keys(twitter).length > 0 ? twitter : undefined,
   };
 };

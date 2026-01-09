@@ -1,3 +1,4 @@
+import { draftMode } from "next/headers";
 import {
   BackgroundVideoBlockFragment,
   BannerImageBlockFragment,
@@ -30,7 +31,7 @@ import {
   NodeImageFragment,
   SeoFragment,
 } from "../../graphql/fragments";
-import { getBasicAuthToken } from "../utilities/getBasicAuthToken";
+import { getBasicAuthToken, getDraftAuthToken } from "../utilities/getBasicAuthToken";
 
 if (!process.env.API_URL || process.env.API_URL.trim() === "") {
   throw new Error("API_URL is missing or empty. Please set it in .env.");
@@ -40,11 +41,19 @@ const httpLink = new HttpLink({
   uri: process.env.API_URL,
 });
 
-const authLink = new SetContextLink((prevContext) => {
+const authLink = new SetContextLink(async (prevContext) => {
   const requestHeaders = {
     ...prevContext.headers,
   };
-  const token = getBasicAuthToken();
+  let token = getBasicAuthToken();
+  if (typeof window === "undefined") {
+    try {
+      const { isEnabled } = await draftMode();
+      if (isEnabled) {
+        token = getDraftAuthToken() ?? token;
+      }
+    } catch {}
+  }
 
   if (token) {
     requestHeaders.authorization = token;
