@@ -13,3 +13,4 @@ export * from "./expertise-options";
 export * from "./portfolio-options";
 export * from "./social-infrastructure-options";
 export * from "./our-purposes-and-values";
+export * from "./video";

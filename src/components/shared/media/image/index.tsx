@@ -12,6 +12,7 @@ export default function MediaImage({
   loading = "lazy",
   fetchPriority = "auto",
   className,
+  sourceUrl,
 }: MediaItem & {
   priority?: boolean;
   loading?: "eager" | "lazy";
@@ -30,7 +31,7 @@ export default function MediaImage({
     <Image
       ref={ref}
       alt={alt || "Image"}
-      src={url ?? ""}
+      src={sourceUrl || url || ""}
       width={Number(mediaDetails?.width)}
       height={Number(mediaDetails?.height)}
       quality={100}

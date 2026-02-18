@@ -69,10 +69,7 @@ export default async function NewsArchive({ year, params }: Props) {
       <div className="u-wrap">
         <div className="u-spaceAfterHuge">
           <div className="Posts-pullQuote">
-            <p>
-              Latest news <br />
-              and updates
-            </p>
+            <p>Latest news</p>
           </div>
         </div>
         <div className="row">

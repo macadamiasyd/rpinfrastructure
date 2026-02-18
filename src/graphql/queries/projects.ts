@@ -114,7 +114,12 @@ export const ProjectQuery = gql`
           }
         }
       }
-
+      projectFields {
+        subtitle
+        value
+        completion
+        client
+      }
       projectCategories(first: 50) {
         nodes {
           __typename

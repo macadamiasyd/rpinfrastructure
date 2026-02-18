@@ -236,10 +236,6 @@ body {
 
 /* ends  */
 
-.cus_expert_sec .new_cus_column {
-  margin-bottom: 30px;
-}
-
 .new_custom_template .expertise_wrap_head {
   display: flex;
   justify-content: space-between;

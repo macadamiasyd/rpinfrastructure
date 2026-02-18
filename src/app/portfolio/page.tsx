@@ -70,7 +70,7 @@ export default async function Projects() {
       {content && (
         <section className="row u-spaceBeforeHuge u-spaceAterHuge">
           <div
-            className="column large-5 large-offset-7 rte Portfolio-content"
+            className="rte Portfolio-content"
             dangerouslySetInnerHTML={{ __html: replaceDomain(content) }}
           />
         </section>

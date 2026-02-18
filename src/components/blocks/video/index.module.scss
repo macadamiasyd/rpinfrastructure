@@ -1,0 +1,8 @@
+.video-block {
+  iframe {
+    max-width: 100%;
+    display: block;
+    aspect-ratio: 16 / 9;
+    height: auto;
+  }
+}

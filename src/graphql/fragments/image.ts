@@ -22,7 +22,7 @@ export const NodeImageFragment = gql`
       }
       guid
       caption
-      sourceUrl
+      sourceUrl(size: LARGE)
       srcSet
       sizes
     }

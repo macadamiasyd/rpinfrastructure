@@ -13,6 +13,7 @@ import PullQuoteBlock from "./pullquote";
 import SocialInfrastructureOptionsBlock from "./social-infrastructure-options";
 import StorySectionBlock from "./story-section";
 import TemplateOptionsBlock from "./template-options";
+import VideoBlock from "./video";
 
 export const sections = {
   ["acf/background-video"]: BackgroundVideoBlock,
@@ -30,8 +31,8 @@ export const sections = {
   ["acf/social-infrastructure-options"]: SocialInfrastructureOptionsBlock,
   ["acf/story-section"]: StorySectionBlock,
   ["acf/our-purpose-and-values"]: OurPurposesAndValuesBlock,
+  ["acf/video"]: VideoBlock,
 } as const;
-
 export type SectionKey = keyof typeof sections;
 export type Section = (typeof sections)[SectionKey];
 

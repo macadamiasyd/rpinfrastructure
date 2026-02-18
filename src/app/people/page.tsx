@@ -53,7 +53,16 @@ export default async function People() {
   const blocks = page?.editorBlocks ?? [];
   const { data: peopleRes } = await query<PeopleListQueryResult>({
     query: PeopleListQuery,
-    variables: { first: 999, after: null, orderby: [] },
+    variables: {
+      first: 999,
+      after: null,
+      orderby: [
+        {
+          order: "ASC",
+          field: "MENU_ORDER",
+        },
+      ],
+    },
     context: { fetchOptions: { next: { tags: ["people-list"], revalidate: 3600 } } },
   });
   return (

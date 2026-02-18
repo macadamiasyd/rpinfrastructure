@@ -884,6 +884,54 @@ export type AcfTermNodeConnectionPageInfo = PageInfo & TermNodeConnectionPageInf
   startCursor?: Maybe<Scalars['String']['output']>;
 };
 
+/** A block used for editing the site */
+export type AcfVideo = EditorBlock & PageEditorBlock & PersonEditorBlock & PostEditorBlock & ProjectEditorBlock & WithAcfVideoBlock & {
+  __typename?: 'AcfVideo';
+  /** The API version of the Gutenberg Block */
+  apiVersion?: Maybe<Scalars['Int']['output']>;
+  /** Attributes of the AcfVideo Block Type */
+  attributes?: Maybe<AcfVideoAttributes>;
+  /** The name of the category the Block belongs to */
+  blockEditorCategoryName?: Maybe<Scalars['String']['output']>;
+  /** The id of the Block */
+  clientId?: Maybe<Scalars['String']['output']>;
+  /** CSS Classnames to apply to the block */
+  cssClassNames?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /** The inner blocks of the Block */
+  innerBlocks?: Maybe<Array<Maybe<EditorBlock>>>;
+  /** Whether the block is Dynamic (server rendered) */
+  isDynamic: Scalars['Boolean']['output'];
+  /** The name of the block */
+  name?: Maybe<Scalars['String']['output']>;
+  /** The parent id of the Block */
+  parentClientId?: Maybe<Scalars['String']['output']>;
+  /** The rendered HTML for the block */
+  renderedHtml?: Maybe<Scalars['String']['output']>;
+  /** The (GraphQL) type of the block */
+  type?: Maybe<Scalars['String']['output']>;
+  /** Fields of the VideoBlock ACF Field Group */
+  videoBlock?: Maybe<VideoBlock>;
+};
+
+/** Attributes of the AcfVideo Block Type */
+export type AcfVideoAttributes = {
+  __typename?: 'AcfVideoAttributes';
+  /** The &quot;align&quot; field on the &quot;AcfVideoAttributes&quot; block or block attributes */
+  align: Scalars['String']['output'];
+  /** The &quot;className&quot; field on the &quot;AcfVideoAttributes&quot; block or block attributes */
+  className?: Maybe<Scalars['String']['output']>;
+  /** The &quot;data&quot; field on the &quot;AcfVideoAttributes&quot; block or block attributes */
+  data: Scalars['BlockAttributesObject']['output'];
+  /** The &quot;lock&quot; field on the &quot;AcfVideoAttributes&quot; block or block attributes */
+  lock?: Maybe<Scalars['BlockAttributesObject']['output']>;
+  /** The &quot;metadata&quot; field on the &quot;AcfVideoAttributes&quot; block or block attributes */
+  metadata?: Maybe<Scalars['BlockAttributesObject']['output']>;
+  /** The &quot;mode&quot; field on the &quot;AcfVideoAttributes&quot; block or block attributes */
+  mode: Scalars['String']['output'];
+  /** The &quot;name&quot; field on the &quot;AcfVideoAttributes&quot; block or block attributes */
+  name: Scalars['String']['output'];
+};
+
 /** Avatars are profile images for users. WordPress by default uses the Gravatar service to host and fetch avatars from. */
 export type Avatar = {
   __typename?: 'Avatar';
@@ -14582,7 +14630,7 @@ export type Previewable = {
 };
 
 /** The Project type */
-export type Project = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithContentEditor & NodeWithEditorBlocks & NodeWithFeaturedImage & NodeWithPageAttributes & NodeWithProjectEditorBlocks & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & WithAcfCarousel & WithAcfProject & {
+export type Project = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithContentEditor & NodeWithEditorBlocks & NodeWithFeaturedImage & NodeWithPageAttributes & NodeWithProjectEditorBlocks & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & WithAcfCarousel & WithAcfProjectFields & {
   __typename?: 'Project';
   /**
    * The ancestors of the content node.
@@ -14664,10 +14712,10 @@ export type Project = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
   previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
   /** Whether the object is a node in the preview state */
   previewRevisionId?: Maybe<Scalars['ID']['output']>;
-  /** Fields of the Project ACF Field Group */
-  project?: Maybe<Project>;
   /** Connection between the Project type and the ProjectCategory type */
   projectCategories?: Maybe<ProjectToProjectCategoryConnection>;
+  /** Fields of the ProjectFields ACF Field Group */
+  projectFields?: Maybe<ProjectFields>;
   /**
    * The id field matches the WP_Post-&gt;ID field.
    * @deprecated Deprecated in favor of the databaseId field
@@ -15285,6 +15333,45 @@ export type ProjectEditorBlock = {
   renderedHtml?: Maybe<Scalars['String']['output']>;
   /** The (GraphQL) type of the block */
   type?: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;ProjectFields&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type ProjectFields = AcfFieldGroup & AcfFieldGroupFields & ProjectFields_Fields & {
+  __typename?: 'ProjectFields';
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;ProjectFields&quot; Field Group */
+  client?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;ProjectFields&quot; Field Group */
+  completion?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;radio&quot; Field Type added to the schema as part of the &quot;ProjectFields&quot; Field Group */
+  enableLocations?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;ProjectFields&quot; Field Group */
+  subtitle?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;ProjectFields&quot; Field Group */
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;ProjectFields&quot; Field Group */
+export type ProjectFields_Fields = {
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;ProjectFields&quot; Field Group */
+  client?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;ProjectFields&quot; Field Group */
+  completion?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;radio&quot; Field Type added to the schema as part of the &quot;ProjectFields&quot; Field Group */
+  enableLocations?: Maybe<Scalars['String']['output']>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;ProjectFields&quot; Field Group */
+  subtitle?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;ProjectFields&quot; Field Group */
+  value?: Maybe<Scalars['String']['output']>;
 };
 
 /** Identifier types for retrieving a specific Project. Specifies which unique attribute is used to find an exact Project. */
@@ -16493,25 +16580,6 @@ export type ProjectToTermNodeConnectionWhereArgs = {
   termTaxonomyId?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
   updateTermMetaCache?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** Interface representing fields of the ACF &quot;Project&quot; Field Group */
-export type Project_Fields = {
-  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;Project&quot; Field Group */
-  client?: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;Project&quot; Field Group */
-  completion?: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;radio&quot; Field Type added to the schema as part of the &quot;Project&quot; Field Group */
-  enableLocations?: Maybe<Scalars['String']['output']>;
-  /**
-   * The name of the field group
-   * @deprecated Use __typename instead
-   */
-  fieldGroupName?: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;Project&quot; Field Group */
-  subtitle?: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;Project&quot; Field Group */
-  value?: Maybe<Scalars['String']['output']>;
 };
 
 /** The &quot;PullQuotes&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
@@ -22622,6 +22690,29 @@ export enum UsersConnectionSearchColumnEnum {
   Url = 'URL'
 }
 
+/** The &quot;VideoBlock&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type VideoBlock = AcfFieldGroup & AcfFieldGroupFields & VideoBlock_Fields & {
+  __typename?: 'VideoBlock';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;VideoBlock&quot; Field Group */
+  url?: Maybe<Scalars['String']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;VideoBlock&quot; Field Group */
+export type VideoBlock_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;url&quot; Field Type added to the schema as part of the &quot;VideoBlock&quot; Field Group */
+  url?: Maybe<Scalars['String']['output']>;
+};
+
 /** Metadata for cursor-based pagination. Provides cursors for continuing pagination and boolean flags indicating if more items exist in either direction. */
 export type WpPageInfo = {
   /** When paginating forwards, the cursor to continue. */
@@ -22725,10 +22816,10 @@ export type WithAcfPortfolioOptions = {
   portfolioOptions?: Maybe<PortfolioOptions>;
 };
 
-/** Provides access to fields of the &quot;Project&quot; ACF Field Group via the &quot;project&quot; field */
-export type WithAcfProject = {
-  /** Fields of the Project ACF Field Group */
-  project?: Maybe<Project>;
+/** Provides access to fields of the &quot;ProjectFields&quot; ACF Field Group via the &quot;projectFields&quot; field */
+export type WithAcfProjectFields = {
+  /** Fields of the ProjectFields ACF Field Group */
+  projectFields?: Maybe<ProjectFields>;
 };
 
 /** Provides access to fields of the &quot;PullQuotes&quot; ACF Field Group via the &quot;pullQuotes&quot; field */
@@ -22765,6 +22856,12 @@ export type WithAcfTemplateOptions = {
 export type WithAcfThemeOptions = {
   /** Fields of the ThemeOptions ACF Field Group */
   themeOptions?: Maybe<ThemeOptions>;
+};
+
+/** Provides access to fields of the &quot;VideoBlock&quot; ACF Field Group via the &quot;videoBlock&quot; field */
+export type WithAcfVideoBlock = {
+  /** Fields of the VideoBlock ACF Field Group */
+  videoBlock?: Maybe<VideoBlock>;
 };
 
 /** The writing setting type */

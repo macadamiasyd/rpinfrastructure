@@ -64,26 +64,22 @@ export default async function PortfolioOptionsBlock({
             query={projects}
           />
           <div className="row">
-            <div className="columns large-5">
-              {opts?.pullquote && (
-                <div
-                  className="PullQuote"
-                  dangerouslySetInnerHTML={{ __html: sanitizeHTML(opts.pullquote) }}
-                />
-              )}
-            </div>
-            <div className="columns large-4 large-offset-5 end">
-              {opts?.portfolioContact && (
-                <div
-                  className="Portfolio-contact"
-                  dangerouslySetInnerHTML={{ __html: sanitizeHTML(opts.portfolioContact) }}
-                />
-              )}
-            </div>
+            {opts?.pullquote && (
+              <div
+                className="PullQuote"
+                dangerouslySetInnerHTML={{ __html: sanitizeHTML(opts.pullquote) }}
+              />
+            )}
+            {opts?.portfolioContact && (
+              <div
+                className="Portfolio-contact"
+                dangerouslySetInnerHTML={{ __html: sanitizeHTML(opts.portfolioContact) }}
+              />
+            )}
+            {slides.length > 0 && <ProjectsCarousel slides={slides as PortfolioOptionsSlides[]} />}
           </div>
         </section>
       </div>
-      {slides.length > 0 && <ProjectsCarousel slides={slides as PortfolioOptionsSlides[]} />}
     </>
   );
 }

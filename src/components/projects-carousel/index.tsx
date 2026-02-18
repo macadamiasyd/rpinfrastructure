@@ -32,7 +32,8 @@ export default function ProjectsCarousel({ slides }: Props) {
         "Carousel--captioned",
         "Carousel--portfolio",
         "u-bounceUp",
-        "is-inView"
+        "is-inView",
+        "u-spaceBeforeHuge"
       )}
     >
       <h2 className="show-for-sr">Featured projects</h2>

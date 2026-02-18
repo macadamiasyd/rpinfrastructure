@@ -13,6 +13,7 @@ import {
   SocialInfrastructureOptionsBlockFragment,
   StorySectionBlockFragment,
   TemplateOptionsBlockFragment,
+  VideoBlockFragment,
 } from "@/graphql/block-fragments";
 import { gql, HttpLink } from "@apollo/client";
 import {
@@ -75,6 +76,7 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
         ${SeoFragment}
         ${LinkFragment}
         ${BackgroundVideoBlockFragment}
+        ${VideoBlockFragment}
         ${BannerImageBlockFragment}
         ${BannerTextBlockFragment}
         ${CarouselBlockFragment}

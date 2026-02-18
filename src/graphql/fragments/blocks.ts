@@ -14,6 +14,9 @@ export const BlockFragment = `
     ... on AcfCarousel {
       ...CarouselBlockFragment
     }
+    ... on AcfVideo {
+      ...VideoBlockFragment
+    }
     ... on AcfHomePageOptions {
       ...HomePageOptionsBlockFragment
     }

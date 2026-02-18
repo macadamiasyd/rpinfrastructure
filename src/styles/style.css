@@ -52,8 +52,8 @@ html .Banner-caption .Banner-cta.button-show {
 }
 
 .cus_expert_sec .new_cus_column {
-  -ms-flex: 0 1 33.333333%;
-  flex: 0 1 33.333333%;
+  -ms-flex: 0 1 calc(50% - 12px);
+  flex: 0 1 calc(50% - 12px);
   max-width: 100%;
 }
 

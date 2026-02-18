@@ -8,6 +8,7 @@ import type {
 import { sanitizeHTML } from "@/lib/utilities/sanitizeHtml";
 
 import PostCarousel from "@/components/post-carousel";
+import MediaImage from "../shared/media/image";
 
 type Props = {
   project: Project;
@@ -27,6 +28,7 @@ export default function ProjectView({ project, backHref = "/portfolio" }: Props)
     }
     return "/portfolio";
   };
+
   return (
     <article className="Project">
       <div className="Project-leftColumn">
@@ -37,12 +39,22 @@ export default function ProjectView({ project, backHref = "/portfolio" }: Props)
           Back to projects
         </Link>
         <h2 className="Project-title">
-          {project.title && (
-            <span dangerouslySetInnerHTML={{ __html: sanitizeHTML(project.title) }} />
+          {project.title}
+          {project.projectFields?.subtitle && (
+            <>
+              <br />
+              <span className="Project-subTitle">{project.projectFields.subtitle}</span>
+            </>
           )}
         </h2>
         <div className="Project-metaWrap">
           <dl className="Project-meta">
+            {project.projectFields?.client && (
+              <>
+                <dt>Client</dt>
+                <dd>{project.projectFields.client}</dd>
+              </>
+            )}
             {categories.length > 0 && (
               <>
                 <dt>Sector</dt>
@@ -55,6 +67,18 @@ export default function ProjectView({ project, backHref = "/portfolio" }: Props)
                     ))}
                   </ul>
                 </dd>
+              </>
+            )}
+            {project.projectFields?.value && (
+              <>
+                <dt>Value</dt>
+                <dd>{project.projectFields.value}</dd>
+              </>
+            )}
+            {project.projectFields?.completion && (
+              <>
+                <dt>Completion</dt>
+                <dd>{project.projectFields.completion}</dd>
               </>
             )}
             {services.length > 0 && (
@@ -89,10 +113,11 @@ export default function ProjectView({ project, backHref = "/portfolio" }: Props)
         </div>
       </div>
       <div className="Project-rightColumn">
-        <PostCarousel
-          featuredImage={project.featuredImage as any}
-          carousel={project.carousel as any}
-        />
+        {project.featuredImage?.node && (
+          <div className="LazyLoad u-spaceAfterHuge">
+            <MediaImage {...project.featuredImage.node} />
+          </div>
+        )}
         <section className="Project-contentRow">
           <div className="Project-detailsWrap">
             <div
@@ -101,6 +126,11 @@ export default function ProjectView({ project, backHref = "/portfolio" }: Props)
             />
           </div>
         </section>
+        {project.carousel && project.carousel.slides && project.carousel.slides.length > 0 && (
+          <div className="u-spaceBeforeHuge">
+            <PostCarousel carousel={project.carousel as any} />
+          </div>
+        )}
       </div>
     </article>
   );

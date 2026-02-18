@@ -94,7 +94,7 @@ export const NewsYearsQuery = gql`
 
 export const PostCategoriesQuery = gql`
   query PostCategoriesQuery {
-    categories(first: 999, where: { parent: 0 }) {
+    categories(first: 999, where: { parent: 0, orderby: TERM_ORDER, order: ASC }) {
       nodes {
         databaseId
         name
@@ -112,6 +112,18 @@ export const PostCategoriesQuery = gql`
             label
           }
         }
+      }
+    }
+  }
+`;
+
+export const BlogArchivePageSeoQuery = gql`
+  query PageSeoQuery($id: ID!) {
+    page(id: $id, idType: DATABASE_ID) {
+      __typename
+      id
+      seo {
+        ...SeoFragment
       }
     }
   }
