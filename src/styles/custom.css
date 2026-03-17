@@ -938,7 +938,7 @@ body:not(.home) {
 }
 
 .add-logo img {
-  width: 126px;
+  width: 75px;
   max-width: 100%;
   height: auto;
 }
@@ -955,7 +955,6 @@ body:not(.home) {
   z-index: 1;
   background: #000;
   min-height: 400px;
-  display: flex;
   align-items: center;
   aspect-ratio: 9 / 16;
 }
@@ -1186,4 +1185,8 @@ body:not(.home) {
     padding: 0;
     margin: 0 1.5rem 3rem;
   }
+}
+
+main {
+  overflow: hidden;
 }

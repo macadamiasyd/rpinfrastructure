@@ -52,14 +52,14 @@ html .Banner-caption .Banner-cta.button-show {
 }
 
 .cus_expert_sec .new_cus_column {
-  -ms-flex: 0 1 calc(50% - 12px);
-  flex: 0 1 calc(50% - 12px);
+  -ms-flex: 0 1 calc(50% - 5px);
+  flex: 0 1 calc(50% - 5px);
   max-width: 100%;
 }
 
 .two_columns_layout .new_cus_column {
-  -ms-flex: 0 1 50%;
-  flex: 0 1 50%;
+  -ms-flex: 0 1 calc(50% - 5px);
+  flex: 0 1 calc(50% - 5px);
   max-width: 100%;
 }
 

@@ -47,4 +47,10 @@
       }
     }
   }
+
+  > div {
+    + .PullQuote-readMore {
+      margin-top: rem-calc($padding-medium);
+    }
+  }
 }
