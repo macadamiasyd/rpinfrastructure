@@ -1186,7 +1186,7 @@ body:not(.home) {
     margin: 0 1.5rem 3rem;
   }
 }
-
+/* horizontal scrollbar fix */
 main {
   overflow: hidden;
 }
