@@ -1187,7 +1187,7 @@ body:not(.home) {
   }
 }
 
-/* fix horizontal scrollbar issue on desktop screens */
+/* fix horizontal scroll issue on desktop screens */
 main {
   overflow: hidden;
 }
