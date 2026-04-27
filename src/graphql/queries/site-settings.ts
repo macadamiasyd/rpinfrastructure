@@ -1,5 +1,4 @@
 import { gql } from "@apollo/client";
-
 export const SiteSettingsQuery = gql`
   query SiteSettingsQuery {
     themeSettings {
@@ -11,12 +10,10 @@ export const SiteSettingsQuery = gql`
       themeOptions {
         abnNo
         copyrightSection
-        enableJobForm
         followUsText
         footerLogo {
           ...AcfImageFragment
         }
-        jobForm
         linkedinLink
         logo {
           ...AcfImageFragment
@@ -40,12 +37,6 @@ export const SiteSettingsQuery = gql`
         }
         topHeaderList {
           text
-        }
-        pageForJob {
-          nodes {
-            id
-            uri
-          }
         }
         pageForPerson {
           nodes {
