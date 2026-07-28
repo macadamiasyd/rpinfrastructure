@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     }
 
     for (const name of names) {
-      revalidateTag(name);
+      revalidateTag(name, "max");
     }
 
     return new Response(
