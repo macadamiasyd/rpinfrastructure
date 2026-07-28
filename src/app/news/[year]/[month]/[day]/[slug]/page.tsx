@@ -2,14 +2,33 @@ import { notFound } from "next/navigation";
 import Script from "next/script";
 import type { Metadata } from "next/types";
 import type { Post } from "@/graphql/generated/graphql";
-import { PostQuery, PostSeoQuery } from "@/graphql/queries/news";
-import { query } from "@/lib/api/client";
+import { NewsSitemapQuery, PostQuery, PostSeoQuery } from "@/graphql/queries/news";
+import { getClient, query } from "@/lib/api/client";
 import { generatePageMetadata } from "@/lib/utilities/generatePageMetadata";
 import { replaceDomain } from "@/lib/utilities/replaceDomain";
 
 import PostView from "@/components/post-view";
 
 export const revalidate = 3600;
+
+// Prerender every published news post so Vercel serves them from the CDN.
+// Paths not listed here still render on demand and are then ISR-cached.
+export async function generateStaticParams() {
+  try {
+    const { data } = await getClient().query<{ posts: { nodes: { uri: string }[] } }>({
+      query: NewsSitemapQuery,
+      context: { fetchOptions: { next: { tags: ["news-sitemap"], revalidate: 3600 } } },
+    });
+
+    return (data?.posts?.nodes ?? [])
+      .map((post) => (post.uri ?? "").split("/").filter(Boolean))
+      // uri is /news/YYYY/MM/DD/slug — drop the leading "news" segment
+      .filter((parts) => parts.length === 5 && parts[0] === "news")
+      .map(([, year, month, day, slug]) => ({ year, month, day, slug }));
+  } catch {
+    return [];
+  }
+}
 
 type Props = {
   params: Promise<PageParams>;
