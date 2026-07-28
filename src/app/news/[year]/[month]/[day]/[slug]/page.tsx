@@ -9,6 +9,8 @@ import { replaceDomain } from "@/lib/utilities/replaceDomain";
 
 import PostView from "@/components/post-view";
 
+export const revalidate = 3600;
+
 type Props = {
   params: Promise<PageParams>;
 };
