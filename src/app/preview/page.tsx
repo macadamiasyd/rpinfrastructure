@@ -10,6 +10,7 @@ import { sanitizeHTML } from "@/lib/utilities/sanitizeHtml";
 
 import PageBuilder from "@/components/blocks/render-blocks";
 import PageClassNames from "@/components/page/page-classnames.client";
+import ExitPreview from "@/components/exit-preview";
 import PostView from "@/components/post-view";
 import ProjectView from "@/components/project-view";
 
@@ -52,6 +53,8 @@ export default async function Preview({ searchParams }: Props) {
   if (isPost) {
     const post = previewData as unknown as Post;
     return (
+      <>
+      <ExitPreview />
       <div className="AppContent row" role="main">
         {previewData?.seo?.schema?.raw && (
           <Script
@@ -65,12 +68,15 @@ export default async function Preview({ searchParams }: Props) {
         )}
         <PostView post={post} backHref="/news" />
       </div>
+      </>
     );
   }
 
   if (isProject) {
     const project = previewData as unknown as Project;
     return (
+      <>
+      <ExitPreview />
       <div className="AppContent row" role="main">
         {previewData?.seo?.schema?.raw && (
           <Script
@@ -82,11 +88,13 @@ export default async function Preview({ searchParams }: Props) {
         )}
         <ProjectView project={project} backHref="/portfolio" />
       </div>
+      </>
     );
   }
 
   return (
     <>
+      <ExitPreview />
       {previewData?.seo?.schema?.raw && (
         <Script
           id="schema-jsonld"
