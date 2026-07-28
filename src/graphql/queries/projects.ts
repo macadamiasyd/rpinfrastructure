@@ -289,3 +289,14 @@ export const ProjectTaxonomiesQuery = gql`
     }
   }
 `;
+
+export const ProjectsSitemapQuery = gql`
+  query ProjectsSitemapQuery {
+    projects(first: 999, where: { status: PUBLISH }) {
+      nodes {
+        id
+        slug
+      }
+    }
+  }
+`;
