@@ -2,8 +2,8 @@ import { notFound, redirect } from "next/navigation";
 import Script from "next/script";
 import type { Metadata } from "next/types";
 import type { PageEditorBlock, Page as PageType } from "@/graphql/generated/graphql";
-import { PageQuery, PageSeoQuery } from "@/graphql/queries";
-import { query } from "@/lib/api/client";
+import { PagesSitemapQuery, PageQuery, PageSeoQuery } from "@/graphql/queries";
+import { getClient, query } from "@/lib/api/client";
 import { generatePageMetadata } from "@/lib/utilities/generatePageMetadata";
 import { replaceDomain } from "@/lib/utilities/replaceDomain";
 import { sanitizeHTML } from "@/lib/utilities/sanitizeHtml";
@@ -12,6 +12,24 @@ import PageBuilder from "@/components/blocks/render-blocks";
 import PageClassNames from "@/components/page/page-classnames.client";
 
 export const revalidate = 3600;
+
+// Prerender every published page so Vercel serves them from the CDN.
+// Paths not listed here still render on demand and are then ISR-cached.
+export async function generateStaticParams() {
+  try {
+    const { data } = await getClient().query<{ pages: { nodes: { uri: string }[] } }>({
+      query: PagesSitemapQuery,
+      context: { fetchOptions: { next: { tags: ["pages-sitemap"], revalidate: 3600 } } },
+    });
+
+    return (data?.pages?.nodes ?? [])
+      .map((page) => (page.uri ?? "").split("/").filter(Boolean))
+      .filter((slug) => slug.length > 0)
+      .map((slug) => ({ slug }));
+  } catch {
+    return [];
+  }
+}
 
 type Props = {
   params: Promise<PageParams>;
