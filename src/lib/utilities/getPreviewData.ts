@@ -8,7 +8,10 @@ export const getPreviewData = async (post_id: number): Promise<ContentNode | nul
     const { data } = await query<{ contentNode: ContentNode }>({
       query: PreviewQuery,
       variables: { id: post_id },
-      context: { fetchOptions: { next: { tags: [`node:${post_id}`], revalidate: 3600 } } },
+      context: {
+        useDraftAuth: true,
+        fetchOptions: { next: { cache: "no-store" } },
+      },
     });
 
     if (!data) {

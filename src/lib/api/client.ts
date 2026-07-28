@@ -1,4 +1,3 @@
-import { draftMode } from "next/headers";
 import {
   BackgroundVideoBlockFragment,
   BannerImageBlockFragment,
@@ -42,19 +41,16 @@ const httpLink = new HttpLink({
   uri: process.env.API_URL,
 });
 
+// Pass `useDraftAuth: true` in the query context to get draft/unpublished content
+// (used only by getPreviewData). Regular page queries must NOT set this flag —
+// it bypasses Next.js fetch caching and prevents ISR from working.
 const authLink = new SetContextLink(async (prevContext) => {
   const requestHeaders = {
     ...prevContext.headers,
   };
-  let token = getBasicAuthToken();
-  if (typeof window === "undefined") {
-    try {
-      const { isEnabled } = await draftMode();
-      if (isEnabled) {
-        token = getDraftAuthToken() ?? token;
-      }
-    } catch {}
-  }
+  const token = prevContext.useDraftAuth
+    ? (getDraftAuthToken() ?? getBasicAuthToken())
+    : getBasicAuthToken();
 
   if (token) {
     requestHeaders.authorization = token;

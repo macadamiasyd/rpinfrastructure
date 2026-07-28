@@ -11,6 +11,8 @@ import { sanitizeHTML } from "@/lib/utilities/sanitizeHtml";
 import PageBuilder from "@/components/blocks/render-blocks";
 import PageClassNames from "@/components/page/page-classnames.client";
 
+export const revalidate = 3600;
+
 type Props = {
   params: Promise<PageParams>;
 };

@@ -3,6 +3,14 @@ import type { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
+    const secret = request.headers.get("x-revalidate-secret");
+    if (!process.env.REVALIDATE_SECRET || secret !== process.env.REVALIDATE_SECRET) {
+      return new Response(JSON.stringify({ message: "Unauthorized" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     const body = await request.json();
     const { names } = body;
     if (!names) {
@@ -27,7 +35,7 @@ export async function POST(request: NextRequest) {
     }
 
     for (const name of names) {
-      revalidateTag(name, "max");
+      revalidateTag(name);
     }
 
     return new Response(
