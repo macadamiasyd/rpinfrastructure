@@ -8,6 +8,7 @@ import type {
 import { sanitizeHTML } from "@/lib/utilities/sanitizeHtml";
 
 import PostCarousel from "@/components/post-carousel";
+import BackToProjectsLink from "./back-link.client";
 import MediaImage from "../shared/media/image";
 
 type Props = {
@@ -32,12 +33,7 @@ export default function ProjectView({ project, backHref = "/portfolio" }: Props)
   return (
     <article className="Project">
       <div className="Project-leftColumn">
-        <Link href={backHref} className="u-linkBack Projects-backLink">
-          <svg className="Icon Icon-arrow-left">
-            <use xlinkHref="#icon-arrow-left" />
-          </svg>
-          Back to projects
-        </Link>
+        <BackToProjectsLink fallbackHref={backHref} />
         <h2 className="Project-title">
           {project.title}
           {project.projectFields?.subtitle && (
