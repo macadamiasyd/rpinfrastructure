@@ -1,4 +1,3 @@
-import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import type { Metadata } from "next/types";
@@ -9,18 +8,36 @@ import {
   type Project,
   type ProjectCategory,
 } from "@/graphql/generated/graphql";
-import { ProjectQuery, ProjectSeoQuery } from "@/graphql/queries/projects";
-import { query } from "@/lib/api/client";
+import { ProjectQuery, ProjectSeoQuery, ProjectsSitemapQuery } from "@/graphql/queries/projects";
+import { getClient, query } from "@/lib/api/client";
 import { generatePageMetadata } from "@/lib/utilities/generatePageMetadata";
 import { queryProjects } from "@/lib/utilities/queryProjects";
 import { replaceDomain } from "@/lib/utilities/replaceDomain";
 
-import ProjectCard from "@/components/cards/project-card";
+import RelatedProjectCard from "@/components/cards/related-project-card.client";
 import ProjectView from "@/components/project-view";
+
+export const revalidate = 3600;
+
+// Prerender every published project so Vercel serves them from the CDN.
+// Paths not listed here still render on demand and are then ISR-cached.
+export async function generateStaticParams() {
+  try {
+    const { data } = await getClient().query<{ projects: { nodes: { slug: string }[] } }>({
+      query: ProjectsSitemapQuery,
+      context: { fetchOptions: { next: { tags: ["projects-sitemap"], revalidate: 3600 } } },
+    });
+
+    return (data?.projects?.nodes ?? [])
+      .filter((project) => !!project.slug)
+      .map((project) => ({ slug: project.slug }));
+  } catch {
+    return [];
+  }
+}
 
 type Props = {
   params: Promise<{ slug: string }>;
-  searchParams?: Promise<Record<string, string | undefined>>;
 };
 
 type ProjectQueryResult = {
@@ -45,9 +62,8 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
   };
 };
 
-export default async function Project({ params, searchParams }: Props) {
+export default async function Project({ params }: Props) {
   const { slug } = await params;
-  const sparams = (await searchParams) ?? {};
   const { data } = await query<ProjectQueryResult>({
     query: ProjectQuery,
     variables: { slug },
@@ -61,42 +77,14 @@ export default async function Project({ params, searchParams }: Props) {
 
   const backCategorySlug = categories[0] ? (categories[0] as ProjectCategory).slug : "";
   const backCategoryLink = (categories[0] as ProjectCategory)?.uri ?? "";
-  let backHref = backCategorySlug
+
+  // Default destination for "Back to projects". When the visitor arrived with
+  // portfolio filters active, BackToProjectsLink swaps this for the filtered
+  // URL on the client — keeping this page static and CDN-cacheable.
+  const backHref = backCategorySlug
     ? `/portfolio?category=${backCategorySlug}`
     : backCategoryLink || `/portfolio`;
 
-  const hdrs = await headers();
-  const referer = hdrs.get("referer");
-  const searchFromCurrent = (() => {
-    const sp = new URLSearchParams();
-    const cat = sparams.category;
-    const srv = sparams.service;
-    const loc = sparams.location;
-    if (cat) sp.set("category", cat);
-    if (srv) sp.set("service", srv);
-    if (loc) sp.set("location", loc);
-    return sp.toString();
-  })();
-  let hrefQuery = searchFromCurrent;
-  if (searchFromCurrent) {
-    backHref = `/portfolio?${searchFromCurrent}`;
-  }
-  if (referer) {
-    try {
-      const url = new URL(referer);
-      if (url.pathname.startsWith("/portfolio")) {
-        backHref = `/portfolio${url.search || ""}`;
-        if (!hrefQuery) hrefQuery = url.search.replace(/^\?/, "");
-      } else if (url.pathname.startsWith("/project")) {
-        if (!searchFromCurrent) {
-          backHref = `/portfolio`;
-          hrefQuery = "";
-        }
-      }
-    } catch {
-      // ignore invalid referrer
-    }
-  }
   let related;
 
   if (backCategorySlug) {
@@ -141,7 +129,7 @@ export default async function Project({ params, searchParams }: Props) {
             <hr className="RelatedProjects-rule" />
             <div className="RelatedProjects-list">
               {(relatedNodes ?? []).map((p, idx) => (
-                <ProjectCard key={p.id ?? idx} {...(p as any)} hrefQuery={hrefQuery} />
+                <RelatedProjectCard key={p.id ?? idx} {...(p as any)} />
               ))}
             </div>
           </div>
