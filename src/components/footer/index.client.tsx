@@ -1,10 +1,6 @@
 import Link from "next/link";
-import type {
-  LocationsOldLocations,
-  Menu,
-  MenuItem,
-  ThemeOptions,
-} from "@/graphql/generated/graphql";
+import type { Menu, MenuItem, ThemeOptions } from "@/graphql/generated/graphql";
+import type { FooterLocation } from "@/lib/utilities/footerLocations";
 import { flatMenuToHierarchical } from "@/lib/utilities/flatMenuToHierarchiacal";
 import { sanitizeHTML } from "@/lib/utilities/sanitizeHtml";
 import clsx from "clsx";
@@ -16,7 +12,7 @@ interface ModifiedMenuItem extends MenuItem {
 }
 
 type Props = {
-  options: ThemeOptions & { locationsOld?: (LocationsOldLocations | null)[] };
+  options: ThemeOptions & { locations?: FooterLocation[] };
   menu?: Menu;
 };
 
@@ -39,7 +35,7 @@ export default function FooterClient({ options, menu }: Props) {
     followUsText = "Follow us",
     abnNo,
     copyrightSection,
-    locationsOld,
+    locations,
     showSignupInFooter = false,
   } = options;
 
@@ -85,7 +81,7 @@ export default function FooterClient({ options, menu }: Props) {
           <div className="row large-up-2">
             <div className="column" data-equalizer-watch>
               <ul className="FooterMenu">
-                {locationsOld?.filter(Boolean).map((loc, i) => (
+                {locations?.filter(Boolean).map((loc, i) => (
                   <li key={loc?.city ?? i} className="FooterMenu-item">
                     {loc?.city && (
                       <Link href={`/contact/#${slugifyCity(loc.city)}`}>{loc.city}</Link>
