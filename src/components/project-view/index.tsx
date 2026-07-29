@@ -5,6 +5,7 @@ import type {
   ProjectLocation,
   ProjectService,
 } from "@/graphql/generated/graphql";
+import { normalizeContentHtml } from "@/lib/utilities/replaceDomain";
 import { sanitizeHTML } from "@/lib/utilities/sanitizeHtml";
 
 import PostCarousel from "@/components/post-carousel";
@@ -118,7 +119,7 @@ export default function ProjectView({ project, backHref = "/portfolio" }: Props)
           <div className="Project-detailsWrap">
             <div
               className="rte"
-              dangerouslySetInnerHTML={{ __html: sanitizeHTML(project.content ?? "") }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHTML(normalizeContentHtml(project.content ?? "")) }}
             />
           </div>
         </section>
