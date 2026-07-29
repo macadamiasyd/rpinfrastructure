@@ -5,7 +5,7 @@ import type { PageEditorBlock, Page as PageType } from "@/graphql/generated/grap
 import { PagesSitemapQuery, PageQuery, PageSeoQuery } from "@/graphql/queries";
 import { getClient, query } from "@/lib/api/client";
 import { generatePageMetadata } from "@/lib/utilities/generatePageMetadata";
-import { replaceDomain } from "@/lib/utilities/replaceDomain";
+import { normalizeContentHtml, replaceDomain } from "@/lib/utilities/replaceDomain";
 import { sanitizeHTML } from "@/lib/utilities/sanitizeHtml";
 
 import PageBuilder from "@/components/blocks/render-blocks";
@@ -88,7 +88,7 @@ export default async function Page({ params }: Props) {
     redirect("/");
   }
 
-  const contentHtml = sanitizeHTML(page.content ?? "");
+  const contentHtml = sanitizeHTML(normalizeContentHtml(page.content ?? ""));
 
   return (
     <>
