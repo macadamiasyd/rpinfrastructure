@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Post } from "@/graphql/generated/graphql";
+import { normalizeContentHtml } from "@/lib/utilities/replaceDomain";
 import { sanitizeHTML } from "@/lib/utilities/sanitizeHtml";
 
 import PostCarousel from "@/components/post-carousel";
@@ -30,17 +31,17 @@ export default function PostView({ post, backHref = "/news" }: Props) {
               <>
                 <div
                   className="Post-standfirst"
-                  dangerouslySetInnerHTML={{ __html: sanitizeHTML(split_content[0]) }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHTML(normalizeContentHtml(split_content[0])) }}
                 />
                 <div
                   className="Post-main"
-                  dangerouslySetInnerHTML={{ __html: sanitizeHTML(split_content[1]) }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHTML(normalizeContentHtml(split_content[1])) }}
                 />
               </>
             ) : (
               <div
                 className="Post-main has-no-standfirst"
-                dangerouslySetInnerHTML={{ __html: sanitizeHTML(post.content ?? "") }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHTML(normalizeContentHtml(post.content ?? "")) }}
               />
             )}
           </div>
