@@ -14,7 +14,7 @@ import {
   TemplateOptionsBlockFragment,
   VideoBlockFragment,
 } from "@/graphql/block-fragments";
-import { ApolloLink, gql, HttpLink } from "@apollo/client";
+import { gql, HttpLink } from "@apollo/client";
 import {
   ApolloClient,
   InMemoryCache,
@@ -94,16 +94,7 @@ const normalizeDeep = (value: unknown): unknown => {
   return value;
 };
 
-const normalizeContentLink = new ApolloLink((operation, forward) =>
-  forward(operation).map((response) => {
-    if (response.data) {
-      response.data = normalizeDeep(response.data) as typeof response.data;
-    }
-    return response;
-  })
-);
-
-export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
+const { getClient, query: baseQuery, PreloadQuery } = registerApolloClient(() => {
   return new ApolloClient({
     cache: new InMemoryCache({
       fragments: createFragmentRegistry(gql`
@@ -129,6 +120,25 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
         ${MenuFragment}
       `),
     }),
-    link: ApolloLink.from([authLink, normalizeContentLink, httpLink]),
+    link: authLink.concat(httpLink),
   });
 });
+
+/**
+ * `query` with backend URLs in editor content rewritten to site-relative.
+ *
+ * Wrapping the query (rather than adding an ApolloLink) keeps this independent
+ * of the link Observable API, and normalising here — before the data reaches
+ * React — means every consumer is covered, including client components where
+ * the domain env vars are unavailable and a render-time rewrite would differ
+ * between SSR and hydration.
+ */
+const query = (async (options: Parameters<typeof baseQuery>[0]) => {
+  const result = await baseQuery(options);
+  if (result?.data) {
+    return { ...result, data: normalizeDeep(result.data) as typeof result.data };
+  }
+  return result;
+}) as typeof baseQuery;
+
+export { getClient, query, PreloadQuery };
