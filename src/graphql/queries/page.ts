@@ -82,3 +82,20 @@ export const PagesSitemapQuery = gql`
     }
   }
 `;
+
+export const ContactLocationsQuery = gql`
+  query ContactLocationsQuery {
+    page(id: "contact", idType: URI) {
+      editorBlocks {
+        name
+        ... on AcfLocations {
+          locations {
+            locations {
+              city
+            }
+          }
+        }
+      }
+    }
+  }
+`;
