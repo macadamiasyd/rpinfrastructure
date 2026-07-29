@@ -1,4 +1,5 @@
 import type { AcfLocations } from "@/graphql/generated/graphql";
+import { normalizeContentHtml } from "@/lib/utilities/replaceDomain";
 import { sanitizeHTML } from "@/lib/utilities/sanitizeHtml";
 import { slugifyCity } from "@/lib/utilities/slugifyCity";
 import clsx from "clsx";
@@ -33,7 +34,7 @@ export default function LocationsBlock({ attributes, locations }: AcfLocations) 
               {(addressHtml || email) && (
                 <div className="Contact-body rte">
                   {addressHtml && (
-                    <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(addressHtml) }} />
+                    <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(normalizeContentHtml(addressHtml)) }} />
                   )}
                   {email && (
                     <p>
