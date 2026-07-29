@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import type { Page } from "@/graphql/generated/graphql";
 import { PagesSitemapQuery } from "@/graphql/queries";
 import { getClient } from "@/lib/api/client";
+import { getSiteUrl } from "@/lib/utilities/replaceDomain";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const client = getClient();
@@ -14,9 +15,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return [];
   }
 
+  const siteUrl = getSiteUrl();
+
   return data?.pages.nodes.map((page: Page) => {
     return {
-      url: `${process.env.PUBLIC_URL}${page.uri}`,
+      url: `${siteUrl}${page.uri}`,
       lastModified: page.modifiedGmt ?? new Date(),
       changeFrequency: "daily",
       priority: 1,
