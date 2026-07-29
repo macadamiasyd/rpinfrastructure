@@ -2,7 +2,9 @@ import Link from "next/link";
 import type { Menu, MenuItem, ThemeOptions } from "@/graphql/generated/graphql";
 import type { FooterLocation } from "@/lib/utilities/footerLocations";
 import { flatMenuToHierarchical } from "@/lib/utilities/flatMenuToHierarchiacal";
+import { stripStagingHosts } from "@/lib/utilities/legacyHosts";
 import { sanitizeHTML } from "@/lib/utilities/sanitizeHtml";
+import { slugifyCity } from "@/lib/utilities/slugifyCity";
 import clsx from "clsx";
 
 import MediaImage from "@/components/shared/media/image";
@@ -15,14 +17,6 @@ type Props = {
   options: ThemeOptions & { locations?: FooterLocation[] };
   menu?: Menu;
 };
-
-function slugifyCity(city: string) {
-  return city
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9-]/g, "");
-}
 
 export default function FooterClient({ options, menu }: Props) {
   const menuNodes = menu?.menuItems?.nodes ?? [];
@@ -145,7 +139,7 @@ export default function FooterClient({ options, menu }: Props) {
               {copyrightSection && (
                 <ul
                   className="copyright_sec SocialMenu"
-                  dangerouslySetInnerHTML={{ __html: sanitizeHTML(copyrightSection) }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHTML(stripStagingHosts(copyrightSection)) }}
                 />
               )}
             </div>
