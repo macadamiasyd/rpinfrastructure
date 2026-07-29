@@ -5,7 +5,7 @@ import Script from "next/script";
 import type { PageEditorBlock, Post, Project } from "@/graphql/generated/graphql";
 import { generatePageMetadata } from "@/lib/utilities/generatePageMetadata";
 import { getPreviewData } from "@/lib/utilities/getPreviewData";
-import { replaceDomain } from "@/lib/utilities/replaceDomain";
+import { normalizeContentHtml, replaceDomain } from "@/lib/utilities/replaceDomain";
 import { sanitizeHTML } from "@/lib/utilities/sanitizeHtml";
 
 import PageBuilder from "@/components/blocks/render-blocks";
@@ -48,7 +48,7 @@ export default async function Preview({ searchParams }: Props) {
       ? ((previewData.editorBlocks ?? []) as PageEditorBlock[])
       : [];
   const contentHtml = ("content" in previewData ? (previewData.content ?? "") : "") as string;
-  const contentSanitized = sanitizeHTML(contentHtml);
+  const contentSanitized = sanitizeHTML(normalizeContentHtml(contentHtml));
 
   if (isPost) {
     const post = previewData as unknown as Post;
