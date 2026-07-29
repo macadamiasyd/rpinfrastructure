@@ -5,6 +5,7 @@ import "@/styles/style.css";
 
 import { Suspense } from "react";
 import { aktivGroteskFont, ridleyGroteskFont } from "@/lib/utilities/fonts";
+import { getFooterLocations } from "@/lib/utilities/footerLocations";
 import { getSiteSettings } from "@/lib/utilities/querySiteSettings";
 import { clsx } from "clsx";
 
@@ -18,7 +19,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const siteSettings = await getSiteSettings();
+  const [siteSettings, footerLocations] = await Promise.all([
+    getSiteSettings(),
+    getFooterLocations(),
+  ]);
 
   return (
     <html lang="en" className={clsx(aktivGroteskFont.variable, ridleyGroteskFont.variable)}>
@@ -38,7 +42,7 @@ export default async function RootLayout({
         {siteSettings?.themeSettings && (
           <Footer
             {...siteSettings.themeSettings.themeOptions}
-            locationsOld={siteSettings.themeSettings.locationsOld?.locations ?? []}
+            locations={footerLocations}
           />
         )}
       </body>
