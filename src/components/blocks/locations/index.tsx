@@ -1,5 +1,6 @@
 import type { AcfLocations } from "@/graphql/generated/graphql";
 import { sanitizeHTML } from "@/lib/utilities/sanitizeHtml";
+import { slugifyCity } from "@/lib/utilities/slugifyCity";
 import clsx from "clsx";
 
 import LocationMap from "./map";
@@ -19,7 +20,14 @@ export default function LocationsBlock({ attributes, locations }: AcfLocations) 
           const email = loc?.email || "";
 
           return (
-            <div key={idx} className="cus_con_block">
+            <div
+              key={idx}
+              id={city ? slugifyCity(city) : undefined}
+              className="cus_con_block"
+              // Offset the anchor jump so the sticky header doesn't cover the
+              // office heading when arriving from a footer city link.
+              style={{ scrollMarginTop: "120px" }}
+            >
               <LocationMap {...loc} />
               {city && <h2 className="Contact-title is-inView">{city}</h2>}
               {(addressHtml || email) && (
