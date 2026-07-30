@@ -27,8 +27,14 @@ const defaultOptions: SwiperOptions = {
   slidesPerView: 1,
   spaceBetween: 0,
   loop: true,
-  autoplay: true,
-  speed: 500,
+  // `autoplay: true` uses Swiper's 3s default, which was too quick to read a
+  // headline plus caption. Pause on hover so a slide can be read in full.
+  autoplay: {
+    delay: 6500,
+    disableOnInteraction: false,
+    pauseOnMouseEnter: true,
+  },
+  speed: 700,
   pagination: {
     enabled: true,
     clickable: true,
