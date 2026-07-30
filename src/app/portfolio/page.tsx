@@ -68,7 +68,7 @@ export default async function Projects() {
         </Suspense>
       )}
       {content && (
-        <section className="row u-spaceBeforeHuge u-spaceAterHuge">
+        <section className="row u-spaceBeforeHuge u-spaceAfterHuge">
           <div
             className="rte Portfolio-content"
             dangerouslySetInnerHTML={{ __html: replaceDomain(content) }}
