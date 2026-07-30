@@ -30,7 +30,14 @@ export default async function SearchPage({ searchParams }: Props) {
       variables: { term, first: Number(first) || 24 },
       context: { fetchOptions: { next: { tags: [`search:${term}`], revalidate: 300 } } },
     });
-    nodes = data?.contentNodes?.nodes ?? [];
+    // Drop results with no resolvable URL. The posts page ("Latest News")
+    // comes back with a null uri and rendered as a dead tile.
+    nodes = (data?.contentNodes?.nodes ?? []).filter((node) => {
+      if (node?.__typename === "Project" || node?.__typename === "Person") {
+        return !!node.slug;
+      }
+      return !!node?.uri;
+    });
   }
 
   const renderItem = (node: SearchNode, index: number) => {
