@@ -94,7 +94,12 @@ export const NewsYearsQuery = gql`
 
 export const PostCategoriesQuery = gql`
   query PostCategoriesQuery {
-    categories(first: 999, where: { parent: 0, orderby: TERM_ORDER, order: ASC }) {
+    categories(
+      first: 999
+      # hideEmpty keeps drained categories (e.g. Uncategorized) out of the
+      # news filter — they were showing as empty options.
+      where: { parent: 0, orderby: TERM_ORDER, order: ASC, hideEmpty: true }
+    ) {
       nodes {
         databaseId
         name
