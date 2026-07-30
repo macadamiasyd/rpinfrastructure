@@ -1190,3 +1190,18 @@ body:not(.home) {
 main {
   overflow: hidden;
 }
+
+/* About sub-page template (Our Story / Our Approach / Our Culture /
+   Our Community Contribution): the section heading renders as a red chip on the
+   current site. Those pages use the template-options block, whose <h2> carries
+   no class, so the class-based .StorySection-header rule never reaches it.
+   Mirrors that rule's treatment. */
+.new_custom_template .Post-main > h2 {
+  font-family: var(--font-aktiv-grotesk);
+  color: #fff;
+  font-size: 18px;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ff3a1e;
+  margin-bottom: 1.875rem;
+}
