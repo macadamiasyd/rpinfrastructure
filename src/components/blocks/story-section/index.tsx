@@ -79,11 +79,17 @@ export default function StorySectionBlock({ attributes, storySection }: AcfStory
   if (hasImage) {
     return (
       <section className={`StorySection row${extraClass}${reverseLayoutClass}`}>
-        <div className="columns large-5 large-offset-2">
+        {/* Reversed sections use the current site's column split (5 / 7 with a
+            one-column indent) so the image sits flush against the copy. */}
+        <div className={isReverseLayout ? "columns large-5" : "columns large-5 large-offset-2"}>
           {title && <h2 className="StorySection-header">{title}</h2>}
           {contentHtml && <div className="rte" dangerouslySetInnerHTML={{ __html: contentHtml }} />}
         </div>
-        <div className="columns large-6 large-offset-1 end">
+        <div
+          className={
+            isReverseLayout ? "columns large-7 large-offset-1" : "columns large-6 large-offset-1 end"
+          }
+        >
           <div className="LazyLoad" style={{ paddingBottom }}>
             {img && (
               <MediaImage
