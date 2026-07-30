@@ -67,8 +67,11 @@ export default async function Projects() {
           <PageBuilder blocks={blocks as PageEditorBlock[]} />
         </Suspense>
       )}
+      {/* No u-spaceBeforeHuge here: the carousel above ends with its slide
+          counter, and the extra 100px left a gap roughly double the one under
+          the Load more button. */}
       {content && (
-        <section className="row u-spaceBeforeHuge u-spaceAfterHuge">
+        <section className="row u-spaceAfterHuge">
           <div
             className="rte Portfolio-content"
             dangerouslySetInnerHTML={{ __html: replaceDomain(content) }}
