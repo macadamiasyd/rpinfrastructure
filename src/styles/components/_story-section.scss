@@ -10,9 +10,21 @@
   @include breakpoint(medium) {
     &--reverseLayout {
       display: flex;
-      flex-flow: row-reverse wrap;
+      // Reversed with `order` rather than `row-reverse`. row-reverse packs the
+      // columns against the right edge, which left the image a column short and
+      // opened a ~200px gap between image and copy. Ordering keeps both columns
+      // on the Foundation grid, matching the current site exactly.
+      flex-flow: row wrap;
       justify-content: flex-start;
       align-items: flex-start;
+
+      > .columns:first-child {
+        order: 2;
+      }
+
+      > .columns:last-child {
+        order: 1;
+      }
 
       &:before,
       &:after {
