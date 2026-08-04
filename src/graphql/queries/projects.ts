@@ -252,11 +252,13 @@ export const ProjectTaxonomiesQuery = gql`
         databaseId
         name
         slug
+        count
         children {
           nodes {
             databaseId
             name
             slug
+            count
           }
         }
         taxonomy {
