@@ -19,6 +19,30 @@ type TaxonomiesQueryResult = {
   projectServices: RootQueryToProjectServiceConnection;
 };
 
+/**
+ * Drop sub-sectors that have no projects yet.
+ *
+ * The sector tree was restructured to the client's chart before the projects
+ * were re-tagged against it, so most sub-sectors are still empty and would
+ * render as filter options that return nothing. Parents are always kept — three
+ * of them (Transport, Water & Energy, Education Science & Technology) hold no
+ * projects directly, only via their children, so filtering on the parent's own
+ * count would remove those groups entirely.
+ *
+ * Remove this once the sub-sector tagging is populated.
+ */
+function hideEmptyChildren<T extends { count?: number | null; children?: { nodes?: unknown } }>(
+  nodes: readonly (T | null)[] | null | undefined
+) {
+  return (nodes ?? []).filter(Boolean).map((node) => {
+    const n = node as T & { children?: { nodes?: ({ count?: number | null } | null)[] | null } };
+    const kids = (n.children?.nodes ?? []).filter(Boolean) as { count?: number | null }[];
+    const populated = kids.filter((k) => (k.count ?? 0) > 0);
+    if (populated.length === kids.length) return n;
+    return { ...n, children: { ...(n.children ?? {}), nodes: populated } };
+  });
+}
+
 export default async function PortfolioOptionsBlock({
   attributes,
   renderedHtml,
@@ -58,7 +82,7 @@ export default async function PortfolioOptionsBlock({
             )}
           </div>
           <ProjectFilterArchive
-            categories={taxonomyData?.projectCategories?.nodes}
+            categories={hideEmptyChildren(taxonomyData?.projectCategories?.nodes) as typeof taxonomyData.projectCategories.nodes}
             locations={taxonomyData?.projectLocations?.nodes}
             services={taxonomyData?.projectServices?.nodes}
             query={projects}
