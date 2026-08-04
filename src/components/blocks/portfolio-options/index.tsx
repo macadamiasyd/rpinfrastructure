@@ -1,5 +1,6 @@
 import type {
   AcfPortfolioOptions,
+  ProjectCategory,
   PortfolioOptionsSlides,
   RootQueryToProjectCategoryConnection,
   RootQueryToProjectLocationConnection,
@@ -19,28 +20,28 @@ type TaxonomiesQueryResult = {
   projectServices: RootQueryToProjectServiceConnection;
 };
 
+type CategoryNodes = RootQueryToProjectCategoryConnection["nodes"];
+
 /**
  * Drop sub-sectors that have no projects yet.
  *
- * The sector tree was restructured to the client's chart before the projects
- * were re-tagged against it, so most sub-sectors are still empty and would
- * render as filter options that return nothing. Parents are always kept — three
- * of them (Transport, Water & Energy, Education Science & Technology) hold no
- * projects directly, only via their children, so filtering on the parent's own
- * count would remove those groups entirely.
+ * A sub-sector with nothing in it renders as a filter option that returns an
+ * empty grid. Parents are always kept — several hold projects only via their
+ * children, so filtering on a parent's own count would remove those groups
+ * entirely (counts track direct assignments only).
  *
- * Remove this once the sub-sector tagging is populated.
+ * This stops being load-bearing once every sub-sector has projects.
  */
-function hideEmptyChildren<T extends { count?: number | null; children?: { nodes?: unknown } }>(
-  nodes: readonly (T | null)[] | null | undefined
-) {
-  return (nodes ?? []).filter(Boolean).map((node) => {
-    const n = node as T & { children?: { nodes?: ({ count?: number | null } | null)[] | null } };
-    const kids = (n.children?.nodes ?? []).filter(Boolean) as { count?: number | null }[];
-    const populated = kids.filter((k) => (k.count ?? 0) > 0);
-    if (populated.length === kids.length) return n;
-    return { ...n, children: { ...(n.children ?? {}), nodes: populated } };
-  });
+function hideEmptyChildren(nodes: CategoryNodes | undefined): CategoryNodes {
+  // The generated node type is an intersection (Node & ProjectCategory) that
+  // nothing maps back onto cleanly — narrow once here, restore it on the way out.
+  const categories = (nodes ?? []) as ProjectCategory[];
+  return categories.map((category) => {
+    const children = (category.children?.nodes ?? []) as ProjectCategory[];
+    const populated = children.filter((child) => (child?.count ?? 0) > 0);
+    if (populated.length === children.length) return category;
+    return { ...category, children: { ...category.children, nodes: populated } };
+  }) as CategoryNodes;
 }
 
 export default async function PortfolioOptionsBlock({
@@ -82,7 +83,7 @@ export default async function PortfolioOptionsBlock({
             )}
           </div>
           <ProjectFilterArchive
-            categories={hideEmptyChildren(taxonomyData?.projectCategories?.nodes) as typeof taxonomyData.projectCategories.nodes}
+            categories={hideEmptyChildren(taxonomyData?.projectCategories?.nodes)}
             locations={taxonomyData?.projectLocations?.nodes}
             services={taxonomyData?.projectServices?.nodes}
             query={projects}
