@@ -171,7 +171,7 @@ export const ProjectLocationQuery = gql`
       databaseId
       description
       seo {
-        ...SeoFragment
+        ...TaxonomySeoFragment
       }
     }
   }
@@ -185,7 +185,7 @@ export const ProjectSectorQuery = gql`
       databaseId
       description
       seo {
-        ...SeoFragment
+        ...TaxonomySeoFragment
       }
     }
   }
@@ -199,7 +199,7 @@ export const ProjectServiceQuery = gql`
       databaseId
       description
       seo {
-        ...SeoFragment
+        ...TaxonomySeoFragment
       }
     }
   }
@@ -295,6 +295,21 @@ export const ProjectTaxonomiesQuery = gql`
 export const ProjectsSitemapQuery = gql`
   query ProjectsSitemapQuery {
     projects(first: 999, where: { status: PUBLISH }) {
+      nodes {
+        id
+        slug
+      }
+    }
+  }
+`;
+
+/**
+ * Every sector slug, parents and sub-sectors alike — both have a landing page.
+ * Deliberately not filtered by `parent`, unlike ProjectTaxonomiesQuery.
+ */
+export const ProjectSectorsSitemapQuery = gql`
+  query ProjectSectorsSitemapQuery {
+    projectCategories(first: 999) {
       nodes {
         id
         slug

@@ -30,6 +30,7 @@ import {
   MenuFragment,
   NodeImageFragment,
   SeoFragment,
+  TaxonomySeoFragment,
 } from "../../graphql/fragments";
 import { getBasicAuthToken, getDraftAuthToken } from "../utilities/getBasicAuthToken";
 import { normalizeContentHtml } from "../utilities/replaceDomain";
@@ -102,6 +103,7 @@ const { getClient, query: baseQuery, PreloadQuery } = registerApolloClient(() =>
         ${NodeImageFragment}
         ${AcfImageFramgent}
         ${SeoFragment}
+        ${TaxonomySeoFragment}
         ${LinkFragment}
         ${BackgroundVideoBlockFragment}
         ${VideoBlockFragment}

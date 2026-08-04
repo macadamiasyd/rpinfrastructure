@@ -7,12 +7,31 @@ import {
   TaxQueryOperator,
   type ProjectCategory,
 } from "@/graphql/generated/graphql";
-import { ProjectSectorQuery } from "@/graphql/queries";
-import { query } from "@/lib/api/client";
+import { ProjectSectorQuery, ProjectSectorsSitemapQuery } from "@/graphql/queries";
+import { getClient, query } from "@/lib/api/client";
 import { generatePageMetadata } from "@/lib/utilities/generatePageMetadata";
 import { replaceDomain } from "@/lib/utilities/replaceDomain";
 
 import ProjectsArchive from "@/components/projects-archive";
+
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  try {
+    const { data } = await getClient().query<{
+      projectCategories: { nodes: { slug: string }[] };
+    }>({
+      query: ProjectSectorsSitemapQuery,
+      context: { fetchOptions: { next: { tags: ["sectors-sitemap"], revalidate: 3600 } } },
+    });
+
+    return (data?.projectCategories?.nodes ?? [])
+      .filter((sector) => !!sector.slug)
+      .map((sector) => ({ sector: sector.slug }));
+  } catch {
+    return [];
+  }
+}
 
 type SectorParams = {
   sector: string;
@@ -30,7 +49,9 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
   const { sector } = await params;
   const { data } = await query<SectorQueryResult>({
     query: ProjectSectorQuery,
-    variables: { sector },
+    // The query declares $slug — passing `sector` left it undefined, so every
+    // sector page fell through to the "Not Found" title. Visible once prerendered.
+    variables: { slug: sector },
     context: { fetchOptions: { next: { tags: [`sector:${sector}`], revalidate: 3600 } } },
   });
   if (!data || !data?.projectCategory?.seo) {
@@ -78,7 +99,7 @@ export default async function Location({ params }: Props) {
       <ProjectsArchive
         title={name}
         description={description}
-        tags={["projects", `projects:location:${sector}`]}
+        tags={["projects", `projects:sector:${sector}`]}
         taxQuery={{
           taxArray: [
             {
