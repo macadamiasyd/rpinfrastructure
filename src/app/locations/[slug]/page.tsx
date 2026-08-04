@@ -7,12 +7,31 @@ import {
   TaxQueryOperator,
   type ProjectLocation,
 } from "@/graphql/generated/graphql";
-import { ProjectLocationQuery } from "@/graphql/queries";
-import { query } from "@/lib/api/client";
+import { ProjectLocationQuery, ProjectLocationsSitemapQuery } from "@/graphql/queries";
+import { getClient, query } from "@/lib/api/client";
 import { generatePageMetadata } from "@/lib/utilities/generatePageMetadata";
 import { replaceDomain } from "@/lib/utilities/replaceDomain";
 
 import ProjectsArchive from "@/components/projects-archive";
+
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  try {
+    const { data } = await getClient().query<{
+      projectLocations: { nodes: { slug: string }[] };
+    }>({
+      query: ProjectLocationsSitemapQuery,
+      context: { fetchOptions: { next: { tags: ["locations-sitemap"], revalidate: 3600 } } },
+    });
+
+    return (data?.projectLocations?.nodes ?? [])
+      .filter((location) => !!location.slug)
+      .map((location) => ({ slug: location.slug }));
+  } catch {
+    return [];
+  }
+}
 
 type PageParams = {
   slug: string;
@@ -86,6 +105,9 @@ export default async function Location({ params }: Props) {
               operator: TaxQueryOperator.In,
               field: TaxQueryField.Slug,
               terms: [slug],
+              // Locations nest too — the states sit under Australia, which holds
+              // no projects directly. Without this its page lists nothing.
+              includeChildren: true,
             },
           ],
         }}

@@ -7,12 +7,31 @@ import {
   TaxQueryOperator,
   type ProjectService,
 } from "@/graphql/generated/graphql";
-import { ProjectServiceQuery } from "@/graphql/queries";
-import { query } from "@/lib/api/client";
+import { ProjectServiceQuery, ProjectServicesSitemapQuery } from "@/graphql/queries";
+import { getClient, query } from "@/lib/api/client";
 import { generatePageMetadata } from "@/lib/utilities/generatePageMetadata";
 import { replaceDomain } from "@/lib/utilities/replaceDomain";
 
 import ProjectsArchive from "@/components/projects-archive";
+
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  try {
+    const { data } = await getClient().query<{
+      projectServices: { nodes: { slug: string }[] };
+    }>({
+      query: ProjectServicesSitemapQuery,
+      context: { fetchOptions: { next: { tags: ["services-sitemap"], revalidate: 3600 } } },
+    });
+
+    return (data?.projectServices?.nodes ?? [])
+      .filter((service) => !!service.slug)
+      .map((service) => ({ slug: service.slug }));
+  } catch {
+    return [];
+  }
+}
 
 type ServiceParams = {
   slug: string;

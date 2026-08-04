@@ -317,3 +317,26 @@ export const ProjectSectorsSitemapQuery = gql`
     }
   }
 `;
+
+/** Locations are hierarchical too (states under Australia) — take every level. */
+export const ProjectLocationsSitemapQuery = gql`
+  query ProjectLocationsSitemapQuery {
+    projectLocations(first: 999) {
+      nodes {
+        id
+        slug
+      }
+    }
+  }
+`;
+
+export const ProjectServicesSitemapQuery = gql`
+  query ProjectServicesSitemapQuery {
+    projectServices(first: 999) {
+      nodes {
+        id
+        slug
+      }
+    }
+  }
+`;
