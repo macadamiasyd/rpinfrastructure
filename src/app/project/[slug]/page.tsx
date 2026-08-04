@@ -99,6 +99,8 @@ export default async function Project({ params }: Props) {
             operator: TaxQueryOperator.In,
             field: TaxQueryField.Slug,
             terms: [backCategorySlug],
+            // Related projects for a parent sector must draw from its sub-sectors too.
+            includeChildren: true,
           },
         ],
       },

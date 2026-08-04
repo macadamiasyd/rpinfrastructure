@@ -109,6 +109,9 @@ export default function ProjectFilterArchive({ query, categories, locations, ser
                 operator: TaxQueryOperator.In,
                 field: TaxQueryField.Slug,
                 terms: filters[key],
+                // Sectors are hierarchical: a project tagged only to a sub-sector must still
+                // come back when its parent sector is selected. WPGraphQL defaults this off.
+                includeChildren: true,
               };
             }
             return false;

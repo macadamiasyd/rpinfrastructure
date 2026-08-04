@@ -86,6 +86,8 @@ export default async function Location({ params }: Props) {
               operator: TaxQueryOperator.In,
               field: TaxQueryField.Slug,
               terms: [sector],
+              // A parent sector's landing page must list the projects tagged to its sub-sectors.
+              includeChildren: true,
             },
           ],
         }}
