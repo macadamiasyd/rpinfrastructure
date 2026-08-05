@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+import { legacyNewsRedirects } from "./src/lib/redirects";
+
 /**
  * Hosts that may serve next/image sources.
  *
@@ -26,6 +28,9 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     inlineCss: true,
+  },
+  async redirects() {
+    return legacyNewsRedirects;
   },
 };
 
