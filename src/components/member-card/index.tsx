@@ -34,7 +34,7 @@ export default function MemberCard({
     searchParams.get("person") && slug && searchParams.get("person") === slug
   );
   const [isOpen, setIsOpen] = useState(initialOpen);
-  const hasImage = Boolean(image?.node?.guid);
+  const hasImage = Boolean(image?.node?.sourceUrl);
 
   const onOpen = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();

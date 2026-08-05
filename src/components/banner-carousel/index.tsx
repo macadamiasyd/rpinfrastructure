@@ -115,7 +115,7 @@ export default function BannerCarousel({
                         </div>
                       </div>
                     )}
-                    {image && image.node && image.node.guid && (
+                    {image && image.node && image.node.sourceUrl && (
                       <MediaImage {...image.node} className="img-cover" />
                     )}
                   </div>

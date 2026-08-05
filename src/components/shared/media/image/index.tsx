@@ -7,12 +7,11 @@ import { useInView } from "react-intersection-observer";
 export default function MediaImage({
   altText: alt,
   mediaDetails,
-  guid: url,
+  sourceUrl,
   priority = false,
   loading = "lazy",
   fetchPriority = "auto",
   className,
-  sourceUrl,
 }: MediaItem & {
   priority?: boolean;
   loading?: "eager" | "lazy";
@@ -25,13 +24,13 @@ export default function MediaImage({
     triggerOnce: true,
   });
 
-  if (!url) return null;
+  if (!sourceUrl) return null;
 
   return (
     <Image
       ref={ref}
       alt={alt || "Image"}
-      src={sourceUrl || url || ""}
+      src={sourceUrl}
       width={Number(mediaDetails?.width)}
       height={Number(mediaDetails?.height)}
       quality={100}

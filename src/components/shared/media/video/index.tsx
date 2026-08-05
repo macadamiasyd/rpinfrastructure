@@ -1,7 +1,7 @@
 import type { MediaItem } from "@/graphql/generated/graphql";
 
 export default function MediaVideo({
-  guid: url,
+  sourceUrl: url,
   autoPlay = false,
   loop = false,
   muted = false,

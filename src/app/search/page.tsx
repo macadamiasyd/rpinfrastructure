@@ -46,7 +46,7 @@ export default async function SearchPage({ searchParams }: Props) {
     ) : (
       <MediaImage
         {...({
-          guid: "/img/placeholder-image.svg",
+          sourceUrl: "/img/placeholder-image.svg",
           altText: "No image",
           mediaDetails: { width: 600, height: 360 },
         } as any)}

@@ -45,7 +45,7 @@ export default function PostCarousel({ featuredImage, carousel, hasCaption = fal
           carousel?.slides.length > 0 &&
           (carousel.slides as CarouselSlides[]).map(({ image }, index) => (
             <SwiperSlide key={index}>
-              {image && image.node && image.node.guid && (
+              {image && image.node && image.node.sourceUrl && (
                 <div className="Carousel-imgWrap">
                   <MediaImage {...image.node} />
                 </div>

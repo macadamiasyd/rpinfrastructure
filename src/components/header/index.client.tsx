@@ -44,8 +44,8 @@ export default function HeaderClient({ options, menu }: Props) {
         <div
           className="abc-menu style-bg"
           style={{
-            backgroundImage: options.topHeaderImage?.node?.guid
-              ? `url('${options.topHeaderImage.node.guid}')`
+            backgroundImage: options.topHeaderImage?.node?.sourceUrl
+              ? `url('${options.topHeaderImage.node.sourceUrl}')`
               : undefined,
           }}
         >

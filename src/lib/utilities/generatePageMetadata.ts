@@ -9,7 +9,7 @@ export const generatePageMetadata = (source?: PostTypeSeo | TaxonomySeo | null):
   const twitter = filterUndefined({
     title: source?.twitterTitle,
     description: source?.twitterDescription,
-    images: source?.twitterImage?.guid,
+    images: source?.twitterImage?.sourceUrl,
   });
   const openGraph = filterUndefined({
     type: source?.opengraphType ?? "website",
@@ -17,7 +17,7 @@ export const generatePageMetadata = (source?: PostTypeSeo | TaxonomySeo | null):
     description: source?.opengraphDescription,
     url: source?.opengraphUrl ? replaceDomain(source?.opengraphUrl) : undefined,
     siteName: source?.opengraphSiteName,
-    images: source?.opengraphImage?.guid,
+    images: source?.opengraphImage?.sourceUrl,
     modifiedTime: source?.opengraphModifiedTime,
   });
   const robots = {

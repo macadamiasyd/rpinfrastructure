@@ -5,7 +5,7 @@ import MediaImage from "@/components/shared/media/image";
 export default function BannerImageBlock({ bannerImage, attributes }: AcfBannerImage) {
   const img = bannerImage?.image?.node ?? null;
 
-  const hasImage = Boolean(img && img.guid);
+  const hasImage = Boolean(img && img.sourceUrl);
   const extraClass = attributes?.className ? ` ${attributes.className}` : "";
   const fixedPosition = Boolean(bannerImage?.fixedPosition);
 
@@ -13,9 +13,9 @@ export default function BannerImageBlock({ bannerImage, attributes }: AcfBannerI
     return (
       <div
         className="StorySection StorySection--banner"
-        style={{ backgroundImage: `url(${img?.guid ?? ""})` }}
+        style={{ backgroundImage: `url(${img?.sourceUrl ?? ""})` }}
       >
-        <img src={img?.guid ?? ""} alt={img?.altText ?? ""} />
+        <img src={img?.sourceUrl ?? ""} alt={img?.altText ?? ""} />
       </div>
     );
 

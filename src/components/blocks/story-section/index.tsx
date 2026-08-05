@@ -19,7 +19,7 @@ export default function StorySectionBlock({ attributes, storySection }: AcfStory
   const imgEdge = storySection?.images?.edges?.[0] ?? null;
   const img = imgEdge?.node ?? null;
 
-  const hasImage = Boolean(img && img.guid);
+  const hasImage = Boolean(img && img.sourceUrl);
   const hasQuote = Boolean(quote);
   const extraClass = attributes?.className ? ` ${attributes.className}` : "";
   const isReverseLayout = storySection?.reverseLayout ?? false;
