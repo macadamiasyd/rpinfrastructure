@@ -8,6 +8,7 @@ export default function MediaImage({
   altText: alt,
   mediaDetails,
   sourceUrl,
+  mediaItemUrl,
   priority = false,
   loading = "lazy",
   fetchPriority = "auto",
@@ -24,13 +25,17 @@ export default function MediaImage({
     triggerOnce: true,
   });
 
-  if (!sourceUrl) return null;
+  // sourceUrl is the right field for images — it resolves through the registered
+  // sizes. mediaItemUrl is the plain file URL and only matters as a fallback for
+  // attachments that have no image sizes at all.
+  const url = sourceUrl ?? mediaItemUrl;
+  if (!url) return null;
 
   return (
     <Image
       ref={ref}
       alt={alt || "Image"}
-      src={sourceUrl}
+      src={url}
       width={Number(mediaDetails?.width)}
       height={Number(mediaDetails?.height)}
       quality={100}

@@ -39,6 +39,12 @@ export const NodeImageFragment = gql`
   }
 `;
 
+/**
+ * Also carries `mediaItemUrl`, because this fragment is reused for video fields
+ * (the background-video block's videoFile / videoFileMobile). `sourceUrl`
+ * resolves through image sizes and comes back **null** for a video attachment;
+ * `mediaItemUrl` is the plain file URL and is correct for every mime type.
+ */
 export const AcfImageFramgent = gql`
   fragment AcfImageFragment on AcfMediaItemConnectionEdge {
     node {
@@ -48,6 +54,8 @@ export const AcfImageFramgent = gql`
         width
       }
       sourceUrl
+      mediaItemUrl
+      mimeType
       caption
     }
   }

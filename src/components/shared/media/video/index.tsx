@@ -1,7 +1,9 @@
 import type { MediaItem } from "@/graphql/generated/graphql";
 
 export default function MediaVideo({
-  sourceUrl: url,
+  // Not sourceUrl: that resolves through image sizes and is null for a video
+  // attachment. mediaItemUrl is the plain file URL, correct for any mime type.
+  mediaItemUrl: url,
   autoPlay = false,
   loop = false,
   muted = false,
