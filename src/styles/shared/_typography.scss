@@ -38,6 +38,21 @@ h2 {
       margin-top: rem-calc(30);
       font-size: rem-calc($font-size-large);
     }
+
+    // The attribution is not a second pull-quote. `cite` carries no size of its
+    // own, so nested here it inherited the 30px quote type and rendered
+    // identically to the quote — which is why editors ended up faking an
+    // attribution with a second quote block instead of using the block's own
+    // citation field.
+    cite {
+      display: block;
+      margin-top: rem-calc(12);
+      font-size: rem-calc($font-size-regular);
+      line-height: 1.4;
+      font-style: normal;
+      font-weight: 400;
+      color: $primary-color;
+    }
   }
 
   cite {
