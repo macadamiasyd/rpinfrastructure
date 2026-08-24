@@ -111,6 +111,28 @@ h2 {
     }
   }
 
+  // Uploaded MP4s use WordPress's core Video block, which needs no special
+  // handling beyond sizing — same as images, it had none, so a video sat at its
+  // intrinsic pixel size in the column.
+  figure.wp-block-video,
+  .wp-block-video {
+    margin: rem-calc(30 0);
+
+    video {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: black;
+    }
+
+    figcaption {
+      margin-top: rem-calc(10);
+      font-size: rem-calc($font-size-small);
+      line-height: 1.4;
+      color: $dark-gray;
+    }
+  }
+
   .alignnone {
     margin: rem-calc(10 0 20);
   }

@@ -73,6 +73,15 @@ export const normalizeContentHtml = (html?: string | null): string => {
     '$1 sizes="(max-width: 640px) 100vw, 720px"'
   );
 
+  // Body videos are self-hosted MP4s served from the WordPress origin, not a
+  // streaming CDN. Without preload="metadata" a browser may start pulling the
+  // whole file on page load — with several clips in one article that is tens of
+  // megabytes before anyone presses play.
+  result = result.replace(
+    /<video\b(?![^>]*\bpreload=)/g,
+    '<video preload="metadata"'
+  );
+
   // A bare origin with no path would otherwise collapse to href="", which
   // resolves to the current page rather than home.
   return result.replace(/(href|src)=""/g, '$1="/"');
