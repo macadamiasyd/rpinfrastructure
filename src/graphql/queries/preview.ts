@@ -106,6 +106,15 @@ export const PreviewQuery = gql`
         content
         slug
         databaseId
+        # Preview renders the same ProjectView as the live page, so it needs the
+        # same fields. Without these, Client/Value/Completion silently vanish in
+        # preview while showing correctly on the published page.
+        projectFields {
+          subtitle
+          client
+          value
+          completion
+        }
         featuredImage {
           ...NodeImageFragment
         }
