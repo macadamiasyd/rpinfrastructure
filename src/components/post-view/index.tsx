@@ -24,7 +24,9 @@ export default function PostView({ post, backHref = "/news" }: Props) {
         <h2 className="Post-title">{post.title ?? ""}</h2>
       </div>
       <article className="columns large-8 end Post">
-        <PostCarousel carousel={post.carousel as any} featuredImage={post.featuredImage as any} />
+        {post.carouselEnabled !== false && (
+          <PostCarousel carousel={post.carousel as any} featuredImage={post.featuredImage as any} />
+        )}
         {post.content && (
           <div className="row rte">
             {split_content.length > 1 ? (

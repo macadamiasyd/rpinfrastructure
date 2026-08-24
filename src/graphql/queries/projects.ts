@@ -107,6 +107,7 @@ export const ProjectQuery = gql`
       featuredImage {
         ...NodeImageFragment
       }
+      carouselEnabled
       carousel {
         slides {
           image {

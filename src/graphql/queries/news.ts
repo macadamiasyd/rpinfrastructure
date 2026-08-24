@@ -14,6 +14,7 @@ export const PostQuery = gql`
       featuredImage {
         ...NodeImageFragment
       }
+      carouselEnabled
       carousel {
         slides {
           image {

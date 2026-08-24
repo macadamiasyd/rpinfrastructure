@@ -93,6 +93,7 @@ export const PreviewQuery = gql`
         featuredImage {
           ...NodeImageFragment
         }
+        carouselEnabled
         carousel {
           slides {
             image {
@@ -118,6 +119,7 @@ export const PreviewQuery = gql`
         featuredImage {
           ...NodeImageFragment
         }
+        carouselEnabled
         carousel {
           slides {
             image {

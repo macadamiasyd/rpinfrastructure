@@ -123,7 +123,7 @@ export default function ProjectView({ project, backHref = "/portfolio" }: Props)
             />
           </div>
         </section>
-        {project.carousel && project.carousel.slides && project.carousel.slides.length > 0 && (
+        {project.carouselEnabled !== false && project.carousel?.slides && project.carousel.slides.length > 0 && (
           <div className="u-spaceBeforeHuge">
             <PostCarousel carousel={project.carousel as any} />
           </div>

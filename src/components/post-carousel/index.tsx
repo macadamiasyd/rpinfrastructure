@@ -21,6 +21,10 @@ export default function PostCarousel({ featuredImage, carousel, hasCaption = fal
   const [active, setActive] = useState(1);
   const totalSlides = (featuredImage?.node ? 1 : 0) + ((carousel?.slides?.length ?? 0) as number);
 
+  // With nothing to show this still rendered the section, the Swiper and the
+  // styling — an empty box on the page.
+  if (totalSlides === 0) return null;
+
   return (
     <section className={clsx("Carousel", { "Carousel--captioned": hasCaption })}>
       <Swiper
