@@ -63,6 +63,16 @@ export const normalizeContentHtml = (html?: string | null): string => {
     );
   }
 
+  // WordPress writes `sizes` from the size chosen when the image was inserted
+  // — insert at Medium and it says `sizes="...300px"`, so the browser picks the
+  // 300w candidate no matter how wide we actually display it. Body images fill
+  // the text column, so describe that instead and let the browser choose the
+  // best candidate from the srcset it already emits.
+  result = result.replace(
+    /(<img\b[^>]*?)\ssizes="[^"]*"/g,
+    '$1 sizes="(max-width: 640px) 100vw, 720px"'
+  );
+
   // A bare origin with no path would otherwise collapse to href="", which
   // resolves to the current page rather than home.
   return result.replace(/(href|src)=""/g, '$1="/"');

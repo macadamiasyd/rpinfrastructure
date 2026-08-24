@@ -62,6 +62,55 @@ h2 {
     margin-bottom: rem-calc(30);
   }
 
+  // Body images had no styling at all, so they rendered at whatever pixel size
+  // was chosen on insert — a 300px-wide image adrift in a 1200px column. Fill
+  // the measure and let height follow, so the native aspect ratio is preserved
+  // and nothing is cropped.
+  figure.wp-block-image,
+  .wp-block-image {
+    margin: rem-calc(30 0);
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    figcaption {
+      margin-top: rem-calc(10);
+      font-size: rem-calc($font-size-small);
+      line-height: 1.4;
+      color: $dark-gray;
+    }
+
+    // Editors can still opt out per image via the block's alignment control.
+    &.alignleft,
+    &.alignright {
+      max-width: 50%;
+
+      @include breakpoint(medium down) {
+        float: none;
+        max-width: 100%;
+        margin: rem-calc(30 0);
+      }
+    }
+
+    &.alignleft {
+      float: left;
+      margin: rem-calc(6 30 20 0);
+    }
+
+    &.alignright {
+      float: right;
+      margin: rem-calc(6 0 20 30);
+    }
+
+    &.aligncenter {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
   .alignnone {
     margin: rem-calc(10 0 20);
   }
