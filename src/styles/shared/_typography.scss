@@ -122,6 +122,12 @@ h2 {
       display: block;
       width: 100%;
       height: auto;
+      // Portrait clips (the library has 1080x1920 assets) would otherwise run
+      // to roughly twice the viewport height at full column width. Cap it and
+      // letterbox rather than crop — losing the top of someone's head is worse
+      // than a black bar.
+      max-height: 80vh;
+      object-fit: contain;
       background: black;
     }
 
