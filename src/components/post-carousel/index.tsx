@@ -19,7 +19,13 @@ type Props = {
 export default function PostCarousel({ featuredImage, carousel, hasCaption = false }: Props) {
   const swiperRef = useRef<SwiperInstance | null>(null);
   const [active, setActive] = useState(1);
-  const totalSlides = (featuredImage?.node ? 1 : 0) + ((carousel?.slides?.length ?? 0) as number);
+  // The featured image is a fallback, not a first slide. Where a post has its
+  // own carousel images it was appearing ahead of them — a duplicate hero, and
+  // served at LARGE (800px) while the slides come through at full size, so it
+  // also read as noticeably softer than everything after it.
+  const slideCount = (carousel?.slides?.length ?? 0) as number;
+  const showFeatured = Boolean(featuredImage?.node) && slideCount === 0;
+  const totalSlides = (showFeatured ? 1 : 0) + slideCount;
 
   // With nothing to show this still rendered the section, the Swiper and the
   // styling — an empty box on the page.
@@ -38,7 +44,7 @@ export default function PostCarousel({ featuredImage, carousel, hasCaption = fal
         }}
         loop={true}
       >
-        {featuredImage?.node && (
+        {showFeatured && featuredImage?.node && (
           <SwiperSlide>
             <div className="Carousel-imgWrap">
               <MediaImage {...featuredImage.node} />
