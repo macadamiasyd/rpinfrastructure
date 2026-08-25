@@ -47,7 +47,7 @@ export default function PostCarousel({ featuredImage, carousel, hasCaption = fal
         {showFeatured && featuredImage?.node && (
           <SwiperSlide>
             <div className="Carousel-imgWrap">
-              <MediaImage {...featuredImage.node} />
+              <MediaImage {...featuredImage.node} responsiveSizes="(max-width: 640px) 100vw, 1200px" />
             </div>
           </SwiperSlide>
         )}
