@@ -113,6 +113,14 @@ export default function ProjectView({ project, backHref = "/portfolio" }: Props)
         {project.featuredImage?.node && (
           <div className="LazyLoad u-spaceAfterHuge">
             <MediaImage {...project.featuredImage.node} />
+            {project.featuredImage.node.caption && (
+              <div
+                className="Carousel-caption"
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeHTML(project.featuredImage.node.caption),
+                }}
+              />
+            )}
           </div>
         )}
         <section className="Project-contentRow">
