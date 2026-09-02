@@ -13,6 +13,7 @@ import Icons from "@/components/shared/icons";
 import PortfolioFilterMemory from "@/components/portfolio-filter-memory.client";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+import Analytics from "@/components/analytics";
 
 export default async function RootLayout({
   children,
@@ -27,6 +28,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className={clsx(aktivGroteskFont.variable, ridleyGroteskFont.variable)}>
       <body id="page-top">
+        <Analytics />
         <a href="#main-content" className="u-skipLink">
           Skip to main content
         </a>
