@@ -26,6 +26,12 @@ const nextConfig: NextConfig = {
       hostname,
     })),
   },
+  // The build prerenders ~280 pages, each hitting WordPress. That backend's
+  // response time swings from sub-second to ~20s under the load of parallel
+  // build workers, so the 60s default trips on a handful of pages every time —
+  // and when all three attempts land in a slow patch the whole build fails.
+  // Nineteen of the last hundred deployments died this way.
+  staticPageGenerationTimeout: 180,
   experimental: {
     inlineCss: true,
   },
