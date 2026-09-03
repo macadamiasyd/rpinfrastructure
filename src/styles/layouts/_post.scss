@@ -48,6 +48,16 @@
 }
 
 .PostThumbnail {
+  // Card images were only capped (max-width: 100%), never told to fill. Any
+  // file narrower than the column — and the served sizes range 637-800px
+  // against a ~654px column — rendered at its own width, hard against the left
+  // edge, so cards sat at visibly different widths down the page.
+  &-thumbnail img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   display: block;
   font-size: rem-calc($font-size-regular);
   @include grid-row();
