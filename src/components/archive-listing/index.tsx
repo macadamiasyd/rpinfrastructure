@@ -59,8 +59,12 @@ export default function ArchiveListing({
     setCursor(params?.posts?.pageInfo?.endCursor ?? "");
   }, [params]);
 
-  const featurePosts = posts.slice(0, 6);
-  const morePosts = posts.slice(6);
+  // The newest articles run as large cards, the rest drop into "More news".
+  // Publishing pushes the oldest of these down automatically — there is no
+  // per-article setting, it is purely date order.
+  const FEATURED_COUNT = 3;
+  const featurePosts = posts.slice(0, FEATURED_COUNT);
+  const morePosts = posts.slice(FEATURED_COUNT);
   return (
     <div
       className={clsx("columns large-8 end u-spaceAfterHuge", {
