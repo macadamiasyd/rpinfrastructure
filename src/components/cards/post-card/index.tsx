@@ -12,7 +12,7 @@ export default function PostCard({ uri, title, featuredImage, excerpt, dateGmt }
       {featuredImage?.node && (
         <div className="PostThumbnail-sidebar">
           <div className="LazyLoad PostThumbnail-thumbnail">
-            <MediaImage {...featuredImage.node} />
+            <MediaImage {...featuredImage.node} responsiveSizes="(max-width: 640px) 40vw, 220px" />
           </div>
         </div>
       )}

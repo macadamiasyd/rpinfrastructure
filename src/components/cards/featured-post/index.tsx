@@ -11,7 +11,7 @@ export default function FeaturedPost({ title, featuredImage, uri, excerpt, dateG
     <article className="PostThumbnail PostThumbnail--feature">
       {featuredImage?.node && (
         <div className="PostThumbnail-thumbnail">
-          <MediaImage {...featuredImage.node} />
+          <MediaImage {...featuredImage.node} responsiveSizes="(max-width: 640px) 100vw, 700px" />
         </div>
       )}
       {dateGmt && (
