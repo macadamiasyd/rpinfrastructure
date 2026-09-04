@@ -115,7 +115,7 @@ export default function ProjectView({ project, backHref = "/portfolio" }: Props)
             <MediaImage {...project.featuredImage.node} />
             {project.featuredImage.node.caption && (
               <div
-                className="Carousel-caption"
+                className="MediaCaption"
                 dangerouslySetInnerHTML={{
                   __html: sanitizeHTML(project.featuredImage.node.caption),
                 }}

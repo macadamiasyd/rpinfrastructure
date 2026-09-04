@@ -63,7 +63,7 @@ export default function PostCarousel({ featuredImage, carousel, hasCaption }: Pr
             </div>
             {featuredImage.node.caption && (
               <div
-                className="Carousel-caption"
+                className="MediaCaption"
                 dangerouslySetInnerHTML={{ __html: sanitizeHTML(featuredImage.node.caption) }}
               />
             )}
@@ -80,7 +80,7 @@ export default function PostCarousel({ featuredImage, carousel, hasCaption }: Pr
                   </div>
                   {image.node.caption && (
                     <div
-                      className="Carousel-caption"
+                      className="MediaCaption"
                       dangerouslySetInnerHTML={{ __html: sanitizeHTML(image.node.caption) }}
                     />
                   )}

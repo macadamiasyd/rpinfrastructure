@@ -1,0 +1,23 @@
+// Captions typed into the media library's Caption field, shown under the image.
+//
+// These used to borrow .Carousel-caption, which is the portfolio carousel's
+// overlay treatment: from `large` up it is position:absolute, opacity:0 and
+// translated off to the left, revealed only by an ancestor carrying
+// .swiper-slide-active. A project's featured image is never inside a slide, so
+// on desktop its caption was written into the HTML and then permanently
+// hidden — while still appearing on mobile, where the overlay rules don't
+// apply. Matches the figcaption treatment used for in-body images.
+.MediaCaption {
+  margin-top: rem-calc(10);
+  font-size: rem-calc($font-size-small);
+  line-height: 1.4;
+  color: $dark-gray;
+
+  p {
+    margin-bottom: 0;
+
+    + p {
+      margin-top: rem-calc(6);
+    }
+  }
+}
