@@ -24,6 +24,18 @@ export default function HeaderClient({ options, menu }: Props) {
   const pinned = !inView;
   const hidden = useHideOnScroll({ nearTopThreshold: 20, enabled: pinned && !navOpen });
 
+  // Without theme settings this block would render as an empty full-bleed box
+  // above the nav. Only draw it when there is actually something in it.
+  const hasTopBanner = Boolean(
+    options.topHeaderHeading ||
+    options.topHeaderSubtitle ||
+    options.topHeaderImage?.node ||
+    options.topHeaderImage1?.node ||
+    options.topHeaderImage2?.node ||
+    options.topHeaderStamp?.node ||
+    options.topHeaderList?.length
+  );
+
   useEffect(() => {
     const body = document.body;
     if (navOpen) {
@@ -40,7 +52,7 @@ export default function HeaderClient({ options, menu }: Props) {
 
   return (
     <>
-      {isHome && (
+      {isHome && hasTopBanner && (
         <div
           className="abc-menu style-bg"
           style={{
