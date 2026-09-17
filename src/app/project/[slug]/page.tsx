@@ -58,7 +58,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
   }
   return {
     title: seo?.title,
-    ...generatePageMetadata(seo as any),
+    ...generatePageMetadata(seo as any, `/project/${slug}`),
   };
 };
 

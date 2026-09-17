@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import Script from "next/script";
 import type { Metadata } from "next/types";
 import type { PageEditorBlock, Page as PageType } from "@/graphql/generated/graphql";
-import { PagesSitemapQuery, PageQuery, PageSeoQuery } from "@/graphql/queries";
+import { PageQuery, PageSeoQuery, PagesSitemapQuery } from "@/graphql/queries";
 import { getClient, query } from "@/lib/api/client";
 import { generatePageMetadata } from "@/lib/utilities/generatePageMetadata";
 import { normalizeContentHtml, replaceDomain } from "@/lib/utilities/replaceDomain";
@@ -62,7 +62,9 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
   } = data;
   return {
     title: seo?.title,
-    ...generatePageMetadata(seo),
+    // generateStaticParams feeds the home page through as ["home"], but it is
+    // served at "/" — canonicalise it there, not at /home.
+    ...generatePageMetadata(seo, slug.join("/") === "home" ? "/" : `/${slug.join("/")}`),
   };
 };
 

@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import type { Post } from "@/graphql/generated/graphql";
 import { NewsSitemapQuery } from "@/graphql/queries/news";
 import { getClient } from "@/lib/api/client";
-import { getSiteUrl } from "@/lib/utilities/replaceDomain";
+import { siteUrlFor } from "@/lib/utilities/replaceDomain";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const client = getClient();
@@ -15,11 +15,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return [];
   }
 
-  const siteUrl = getSiteUrl();
-
   return data.posts.nodes.map((post: Post) => {
     return {
-      url: `${siteUrl}${post.uri}`,
+      // siteUrlFor drops WordPress's trailing slash: `/about/` 308-redirects
+      // to `/about`, so the raw uri published an address that bounced.
+      url: siteUrlFor(post.uri),
       lastModified: post.modifiedGmt ?? new Date(),
       changeFrequency: "daily",
       priority: 1,

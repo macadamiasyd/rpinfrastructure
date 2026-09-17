@@ -40,7 +40,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
   return {
     title: seo.title ?? "Latest News",
-    ...generatePageMetadata(seo),
+    ...generatePageMetadata(seo, "/news"),
   };
 };
 export default function News() {

@@ -15,6 +15,27 @@ export const getSiteUrl = (): string =>
   );
 
 /**
+ * Absolute URL on the public site for a path, in the form the Next.js route
+ * actually serves it.
+ *
+ * WordPress permalinks always carry a trailing slash; these routes never do,
+ * so `/about/` 308-redirects to `/about`. Feeding a WP `uri` straight into a
+ * sitemap entry or an og:url therefore published an address that bounced on
+ * every request.
+ */
+export const siteUrlFor = (path?: string | null): string => {
+  const base = getSiteUrl();
+  const trimmed = (path ?? "").trim();
+  if (!base) return trimmed;
+
+  const withLeadingSlash = `/${trimmed.replace(/^\/+/, "")}`;
+  const normalised = withLeadingSlash.replace(/\/+$/, "");
+
+  // The home page is the one address that keeps its slash.
+  return normalised === "" ? `${base}/` : `${base}${normalised}`;
+};
+
+/**
  * Swap the WordPress backend host for the frontend host.
  *
  * Media is deliberately left alone: `/wp-content/...` is still served by
@@ -49,18 +70,13 @@ export const normalizeContentHtml = (html?: string | null): string => {
   const backendHosts = [process.env.API_DOMAIN, process.env.SITE_DOMAIN].filter(
     (host): host is string => !!host
   );
-  const frontendHosts = [process.env.FRONTEND_DOMAIN].filter(
-    (host): host is string => !!host
-  );
+  const frontendHosts = [process.env.FRONTEND_DOMAIN].filter((host): host is string => !!host);
 
   let result = source;
 
   for (const host of [...new Set([...backendHosts, ...frontendHosts])]) {
     // Strip the origin, but never for media paths.
-    result = result.replace(
-      new RegExp(`https?://${escapeRegExp(host)}(?!/wp-content)`, "g"),
-      ""
-    );
+    result = result.replace(new RegExp(`https?://${escapeRegExp(host)}(?!/wp-content)`, "g"), "");
   }
 
   // WordPress writes `sizes` from the size chosen when the image was inserted
@@ -77,10 +93,7 @@ export const normalizeContentHtml = (html?: string | null): string => {
   // streaming CDN. Without preload="metadata" a browser may start pulling the
   // whole file on page load — with several clips in one article that is tens of
   // megabytes before anyone presses play.
-  result = result.replace(
-    /<video\b(?![^>]*\bpreload=)/g,
-    '<video preload="metadata"'
-  );
+  result = result.replace(/<video\b(?![^>]*\bpreload=)/g, '<video preload="metadata"');
 
   // A bare origin with no path would otherwise collapse to href="", which
   // resolves to the current page rather than home.

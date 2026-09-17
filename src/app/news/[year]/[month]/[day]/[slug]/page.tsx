@@ -20,11 +20,13 @@ export async function generateStaticParams() {
       context: { fetchOptions: { next: { tags: ["news-sitemap"], revalidate: 3600 } } },
     });
 
-    return (data?.posts?.nodes ?? [])
-      .map((post) => (post.uri ?? "").split("/").filter(Boolean))
-      // uri is /news/YYYY/MM/DD/slug — drop the leading "news" segment
-      .filter((parts) => parts.length === 5 && parts[0] === "news")
-      .map(([, year, month, day, slug]) => ({ year, month, day, slug }));
+    return (
+      (data?.posts?.nodes ?? [])
+        .map((post) => (post.uri ?? "").split("/").filter(Boolean))
+        // uri is /news/YYYY/MM/DD/slug — drop the leading "news" segment
+        .filter((parts) => parts.length === 5 && parts[0] === "news")
+        .map(([, year, month, day, slug]) => ({ year, month, day, slug }))
+    );
   } catch {
     return [];
   }
@@ -38,12 +40,18 @@ type PostQueryResult = {
   post: Post;
 };
 
+// The route is /news/[year]/[month]/[day]/[slug]; the date segments were
+// never declared even though Next supplies them, so the canonical URL could
+// not be rebuilt from the params.
 type PageParams = {
+  year: string;
+  month: string;
+  day: string;
   slug: string;
 };
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
-  const { slug } = await params;
+  const { year, month, day, slug } = await params;
   const { data } = await query<PostQueryResult>({
     query: PostSeoQuery,
     variables: { slug: slug },
@@ -62,7 +70,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
   return {
     title: seo?.title,
-    ...generatePageMetadata(seo),
+    ...generatePageMetadata(seo, `/news/${year}/${month}/${day}/${slug}`),
   };
 };
 
