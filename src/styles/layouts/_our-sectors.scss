@@ -1,0 +1,40 @@
+// Our Sectors
+//
+// Two rules elsewhere fight the editor on this page, so text that looks right
+// in wp-admin does not look right once published:
+//
+//  - `.rte strong` in shared/_typography.scss sets `font-weight: 400`, so the
+//    editor's Bold button has no visible effect anywhere in rich text.
+//  - `.cus_expert_sec … .content_area p b` renders a `<b>` as a 30px lead-in.
+//    Pasting from Word produces `<b>` where the Bold button produces
+//    `<strong>`, so pasted bold silently became a 30px heading.
+//
+// Both are scoped to this page's body class. The rest of the site keeps the
+// behaviour it has today; `.rte strong` is a site-wide decision for the client
+// to make separately.
+body.our-sectors {
+  // The closing line of the intro, after the sector list: bold, but the same
+  // size and colour as the paragraph above it. `b` and `strong` are treated
+  // alike so it reads the same whether the text was typed or pasted.
+  .cus_expert_sec .expertise_wrap_head .cus_new_sec_content .content_area .rte p {
+    b,
+    strong {
+      display: inline;
+      margin-bottom: 0;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: 600;
+      line-height: inherit;
+      color: inherit;
+    }
+  }
+
+  // Each sector's subheading, e.g. "Keeping transport projects moving".
+  .image_list_cussec .new_cus_column .cus_new_sec_content .rte p {
+    b,
+    strong {
+      font-weight: 600;
+      color: $primary-color;
+    }
+  }
+}
