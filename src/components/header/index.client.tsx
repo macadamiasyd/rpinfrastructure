@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Menu, ThemeOptions } from "@/graphql/generated/graphql";
 import useHideOnScroll from "@/lib/hooks/useHideOnScroll";
+import { optimizedImageUrl } from "@/lib/utilities/optimizedImageUrl";
 import clsx from "clsx";
 import { useInView } from "react-intersection-observer";
 
@@ -56,8 +57,11 @@ export default function HeaderClient({ options, menu }: Props) {
         <div
           className="abc-menu style-bg"
           style={{
+            // A CSS background can't be next/image, so it goes through the
+            // optimizer by URL — this was the last image on the home page still
+            // fetched full-size straight from WordPress (a 0.94MB PNG).
             backgroundImage: options.topHeaderImage?.node?.sourceUrl
-              ? `url('${options.topHeaderImage.node.sourceUrl}')`
+              ? `url("${optimizedImageUrl(options.topHeaderImage.node.sourceUrl)}")`
               : undefined,
           }}
         >
