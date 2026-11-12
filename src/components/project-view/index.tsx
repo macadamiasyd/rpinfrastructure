@@ -9,8 +9,8 @@ import { normalizeContentHtml } from "@/lib/utilities/replaceDomain";
 import { sanitizeHTML } from "@/lib/utilities/sanitizeHtml";
 
 import PostCarousel from "@/components/post-carousel";
-import BackToProjectsLink from "./back-link.client";
 import MediaImage from "../shared/media/image";
+import BackToProjectsLink from "./back-link.client";
 
 type Props = {
   project: Project;
@@ -112,7 +112,10 @@ export default function ProjectView({ project, backHref = "/portfolio" }: Props)
       <div className="Project-rightColumn">
         {project.featuredImage?.node && (
           <div className="LazyLoad u-spaceAfterHuge">
-            <MediaImage {...project.featuredImage.node} />
+            <MediaImage
+              {...project.featuredImage.node}
+              responsiveSizes="(max-width: 900px) 100vw, 750px"
+            />
             {project.featuredImage.node.caption && (
               <div
                 className="MediaCaption"
@@ -127,15 +130,19 @@ export default function ProjectView({ project, backHref = "/portfolio" }: Props)
           <div className="Project-detailsWrap">
             <div
               className="rte"
-              dangerouslySetInnerHTML={{ __html: sanitizeHTML(normalizeContentHtml(project.content ?? "")) }}
+              dangerouslySetInnerHTML={{
+                __html: sanitizeHTML(normalizeContentHtml(project.content ?? "")),
+              }}
             />
           </div>
         </section>
-        {project.carouselEnabled !== false && project.carousel?.slides && project.carousel.slides.length > 0 && (
-          <div className="u-spaceBeforeHuge">
-            <PostCarousel carousel={project.carousel as any} />
-          </div>
-        )}
+        {project.carouselEnabled !== false &&
+          project.carousel?.slides &&
+          project.carousel.slides.length > 0 && (
+            <div className="u-spaceBeforeHuge">
+              <PostCarousel carousel={project.carousel as any} />
+            </div>
+          )}
       </div>
     </article>
   );

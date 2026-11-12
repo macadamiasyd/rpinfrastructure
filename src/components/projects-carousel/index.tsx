@@ -64,7 +64,7 @@ export default function ProjectsCarousel({ slides }: Props) {
             <SwiperSlide key={index} className="Carousel-slide">
               {image && image.node && (
                 <div className="Carousel-imgWrap">
-                  <MediaImage {...image.node} />
+                  <MediaImage {...image.node} responsiveSizes="(max-width: 640px) 100vw, 1200px" />
                 </div>
               )}
               <div className="Carousel-caption">

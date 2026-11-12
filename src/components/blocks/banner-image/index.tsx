@@ -29,6 +29,7 @@ export default function BannerImageBlock({ bannerImage, attributes }: AcfBannerI
               priority
               loading="eager"
               fetchPriority="high"
+              responsiveSizes="100vw"
               className="Banner-image"
             />
           )}
