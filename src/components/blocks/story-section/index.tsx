@@ -12,6 +12,14 @@ function Quote({ quote, inertia = 0.3 }: { quote: string; inertia?: number }) {
   );
 }
 
+/**
+ * Every image in this block sits in a half-width column — measured at 38–45vw
+ * above the large breakpoint and ~87vw stacked below it. Without the hint
+ * next/image sizes the srcSet from the intrinsic width instead, which fetched a
+ * 3840px candidate for a 650px slot: 2.3MB where ~250KB will do.
+ */
+const STORY_IMAGE_SIZES = "(max-width: 1023px) 90vw, 46vw";
+
 export default function StorySectionBlock({ attributes, storySection }: AcfStorySection) {
   const title = storySection?.title ?? "";
   const contentHtml = storySection?.content ?? "";
@@ -51,6 +59,7 @@ export default function StorySectionBlock({ attributes, storySection }: AcfStory
                   priority
                   loading="eager"
                   fetchPriority="high"
+                  responsiveSizes={STORY_IMAGE_SIZES}
                 />
               )}
             </div>
@@ -87,7 +96,9 @@ export default function StorySectionBlock({ attributes, storySection }: AcfStory
         </div>
         <div
           className={
-            isReverseLayout ? "columns large-7 large-offset-1" : "columns large-6 large-offset-1 end"
+            isReverseLayout
+              ? "columns large-7 large-offset-1"
+              : "columns large-6 large-offset-1 end"
           }
         >
           <div className="LazyLoad" style={{ paddingBottom }}>
@@ -98,6 +109,7 @@ export default function StorySectionBlock({ attributes, storySection }: AcfStory
                 priority
                 loading="eager"
                 fetchPriority="high"
+                responsiveSizes={STORY_IMAGE_SIZES}
               />
             )}
           </div>
