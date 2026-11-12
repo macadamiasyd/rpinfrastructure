@@ -59,6 +59,7 @@ export default function MemberCard({
             className="LazyLoad-image u-bounceUp"
             loading="lazy"
             fetchPriority="low"
+            responsiveSizes="(max-width: 640px) 80vw, 330px"
           />
         </div>
       )}
@@ -103,6 +104,7 @@ export default function MemberCard({
                     className="LazyLoad-image u-bounceUp"
                     loading="eager"
                     fetchPriority="high"
+                    responsiveSizes="(max-width: 640px) 90vw, 600px"
                   />
                 </div>
               )}

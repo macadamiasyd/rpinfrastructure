@@ -116,7 +116,7 @@ export default function BannerCarousel({
                       </div>
                     )}
                     {image && image.node && image.node.sourceUrl && (
-                      <MediaImage {...image.node} className="img-cover" />
+                      <MediaImage {...image.node} responsiveSizes="100vw" className="img-cover" />
                     )}
                   </div>
                 </SwiperSlide>

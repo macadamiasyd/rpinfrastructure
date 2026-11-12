@@ -4,12 +4,18 @@ import Image from "next/image";
 import type { MediaItem } from "@/graphql/generated/graphql";
 import { useInView } from "react-intersection-observer";
 
+/**
+ * Vector sources gain nothing from the optimizer, and next/image rejects remote
+ * SVGs outright unless `dangerouslyAllowSVG` is set — which we don't want for
+ * editor-uploaded files. They're passed through untouched instead.
+ */
+const isVector = (url: string) => /\.svgz?(?:[?#]|$)/i.test(url);
+
 export default function MediaImage({
   altText: alt,
   mediaDetails,
   sourceUrl,
   mediaItemUrl,
-  srcSet,
   responsiveSizes,
   priority = false,
   loading = "lazy",
@@ -22,10 +28,9 @@ export default function MediaImage({
   className?: string;
   /**
    * How wide this image actually renders, e.g. "(max-width: 640px) 100vw, 1200px".
-   * Opting in is deliberate: WordPress supplies a `sizes` value describing the
-   * size chosen on insert, and every grid and card consumes the same fragment —
-   * switching them all to srcSet with a careless hint would have the browser
-   * fetch the largest candidate for a thumbnail.
+   * Worth passing wherever the rendered width is much smaller than the source:
+   * without it next/image sizes the srcSet from the intrinsic width, so a
+   * 2560px original offered to a 700px slot fetches far more than it needs.
    */
   responsiveSizes?: string;
 }) {
@@ -41,26 +46,32 @@ export default function MediaImage({
   const url = sourceUrl ?? mediaItemUrl;
   if (!url) return null;
 
-  // next/image is running unoptimized here, which means it emits a single src
-  // and drops any srcSet — so a hero rendered from the LARGE size (800px on
-  // this site) was upscaled and looked soft. Where WordPress has given us
-  // candidates, render them directly and let the browser choose. `sizes` must
-  // be passed by the caller: WordPress writes it from the size chosen on
-  // insert, which is almost never how we actually display the image.
-  if (srcSet && responsiveSizes) {
+  const width = Number(mediaDetails?.width) || 0;
+  const height = Number(mediaDetails?.height) || 0;
+  const hasIntrinsicSize = width > 0 && height > 0;
+  const classes = `${className ?? ""} ${inView ? "is-inView" : ""}`;
+
+  // Everything routable goes through the optimizer: it re-encodes to WebP/AVIF,
+  // caps the delivered pixels at the device sizes, and serves from the frontend
+  // CDN rather than the WordPress origin. That origin has no CDN in front of it
+  // and is the only source of imagery on the site, so going direct made every
+  // page depend on it — and let a 25MB upload ship to visitors untouched.
+  //
+  // Two cases can't take that path: vectors, and attachments WordPress gave us
+  // no dimensions for (next/image needs width and height to reserve space and
+  // to build a srcSet). Those fall back to the file as-is.
+  if (!hasIntrinsicSize || isVector(url)) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
         ref={ref}
         alt={alt || "Image"}
         src={url}
-        srcSet={srcSet}
-        sizes={responsiveSizes}
-        width={Number(mediaDetails?.width) || undefined}
-        height={Number(mediaDetails?.height) || undefined}
+        width={hasIntrinsicSize ? width : undefined}
+        height={hasIntrinsicSize ? height : undefined}
         loading={priority ? "eager" : loading}
         fetchPriority={fetchPriority}
-        className={`${className ?? ""} ${inView ? "is-inView" : ""}`}
+        className={classes}
       />
     );
   }
@@ -70,14 +81,13 @@ export default function MediaImage({
       ref={ref}
       alt={alt || "Image"}
       src={url}
-      width={Number(mediaDetails?.width)}
-      height={Number(mediaDetails?.height)}
-      quality={100}
-      loading={loading}
-      priority={priority}
+      width={width}
+      height={height}
+      sizes={responsiveSizes}
+      quality={85}
+      {...(priority ? { priority: true } : { loading })}
       fetchPriority={fetchPriority}
-      className={`${className ?? ""} ${inView ? "is-inView" : ""}`}
-      unoptimized={true}
+      className={classes}
     />
   );
 }

@@ -20,7 +20,9 @@ const imageHosts = [
 const nextConfig: NextConfig = {
   images: {
     dangerouslyAllowLocalIP: true,
-    qualities: [25, 50, 75, 100],
+    // 85 is what MediaImage asks for. Only listed qualities are permitted —
+    // an unlisted one makes the optimizer reject the request outright.
+    qualities: [25, 50, 75, 85, 100],
     remotePatterns: [...new Set(imageHosts)].map((hostname) => ({
       protocol: "https" as const,
       hostname,
