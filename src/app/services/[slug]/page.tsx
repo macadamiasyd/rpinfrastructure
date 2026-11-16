@@ -73,7 +73,7 @@ export default async function Location({ params }: Props) {
   const { data } = await query<ServiceQueryResult>({
     query: ProjectServiceQuery,
     variables: { slug },
-    context: { fetchOptions: { next: { tags: [`servcie:${slug}`], revalidate: 3600 } } },
+    context: { fetchOptions: { next: { tags: [`service:${slug}`], revalidate: 3600 } } },
   });
 
   if (!data || !data.projectService) {
